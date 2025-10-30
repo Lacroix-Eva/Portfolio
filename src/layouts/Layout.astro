@@ -1,0 +1,32 @@
+---
+import "../styles/global.css";
+
+const { ...item } = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr" data-theme="Portfolio">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Eva Lacroix - {item.titre}</title>
+  </head>
+
+  <body>
+	<h1 class="container mx-auto px-4 text-4xl md:text-6xl font-extrabold text-primary text-center my-8 tracking-tight card-title">
+		{item.titre}
+	</h1>
+    <slot />
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>

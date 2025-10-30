@@ -1,0 +1,13 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+import { pb } from "../utils/pb";
+
+const projets = await pb.collection("Projets").getFullList();
+---
+
+<Layout titre="Titre test">
+  <ul>
+    {projets.map((projet) => <li>{projet.titre}</li>)}
+  </ul>
+</Layout>
