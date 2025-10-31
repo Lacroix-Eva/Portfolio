@@ -1,0 +1,38 @@
+---
+const { item } = Astro.props;
+import { Image } from "astro:assets";
+---
+
+<header class="relative flex items-center justify-between">
+  <!-- Logo à gauche -->
+  <div>
+    <img
+      src="/src/assets/icons/logoBlanc.png"
+      alt="Logo"
+      width="176"
+      height="176"
+    />
+  </div>
+
+  <!-- Nom au centre -->
+  <div class="absolute inset-x-0 inset-y-0 flex items-center justify-center">
+    <Image
+      src={item.img}
+      alt="Titre page"
+      width="560"
+      height="240"
+    />
+  </div>
+
+  <div class="absolute right-0">
+    <button class="focus:outline-none">
+      <img
+        src="/src/assets/icons/menu.svg"
+        alt="Menu"
+        class="mr-5"
+        width="128"
+        height="128"
+      />
+    </button>
+  </div>
+</header>

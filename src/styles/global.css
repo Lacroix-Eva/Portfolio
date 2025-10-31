@@ -1,14 +1,13 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-    themes: all
+    themes: Portfolio;
 }
-
 @plugin "daisyui/theme" {
     name: "Portfolio";
     default: true;
     prefersdark: false;
-    color-scheme: "light";
+    color-scheme: "dark";
     --color-base-100: #000430;
     --color-base-200: #000420;
     --color-base-300: #000410;
@@ -37,4 +36,36 @@
     --border: 1px;
     --depth: 1;
     --noise: 1;
+}
+
+/* === FOND D'ÉTOILES === */
+
+#background-stars {
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-base-100);
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.star,
+.dot {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: twinkle 3s infinite ease-in-out alternate;
+}
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
 }
