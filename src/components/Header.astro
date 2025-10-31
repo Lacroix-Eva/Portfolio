@@ -4,35 +4,95 @@ import { Image } from "astro:assets";
 ---
 
 <header class="relative flex items-center justify-between">
-  <!-- Logo à gauche -->
-  <div>
-    <img
-      src="/src/assets/icons/logoBlanc.png"
-      alt="Logo"
-      width="176"
-      height="176"
-    />
-  </div>
+    <!-- Logo à gauche -->
+    <div>
+        <img
+            src="/src/assets/icons/logoBlanc.png"
+            alt="Logo"
+            width="176"
+            height="176"
+        />
+    </div>
 
-  <!-- Nom au centre -->
-  <div class="absolute inset-x-0 inset-y-0 flex items-center justify-center">
-    <Image
-      src={item.img}
-      alt="Titre page"
-      width="560"
-      height="240"
-    />
-  </div>
+    <!-- Nom au centre -->
+    <div class="absolute inset-x-0 inset-y-0 flex items-center justify-center">
+        <Image src={item.img} alt="Titre page" width="560" height="240" />
+    </div>
 
-  <div class="absolute right-0">
-    <button class="focus:outline-none">
-      <img
-        src="/src/assets/icons/menu.svg"
-        alt="Menu"
-        class="mr-5"
-        width="128"
-        height="128"
-      />
-    </button>
-  </div>
+    <!-- Bouton menu à droite -->
+    <div class="absolute right-0">
+        <button
+            id="menu-btn"
+            class="focus:outline-none mr-5"
+            aria-label="Ouvrir le menu"
+            aria-expanded="false"
+        >
+            <img
+                src="/src/assets/icons/menu.svg"
+                alt="Menu"
+                width="128"
+                height="128"
+                class="cursor-pointer"
+            />
+        </button>
+    </div>
+
+    <!-- Menu latéral -->
+    <nav
+        id="menu-panel"
+        class="fixed top-0 right-0 h-full w-[760px] max-w-full bg-base-200 transform translate-x-full transition-transform duration-500 ease-in-out shadow-xl z-40"
+        aria-hidden="true"
+    >
+        <div class="absolute right-0">
+            <img
+                src="/src/assets/icons/croix.svg"
+                alt="Fermer le menu"
+                id="close-menu"
+                width="96"
+                height="96"
+                class="cursor-pointer mr-8 mt-9"
+            />
+        </div>
+    </nav>
 </header>
+
+<script>
+    const menuBtn = document.getElementById("menu-btn");
+    const closeMenu = document.getElementById("close-menu");
+    const menuPanel = document.getElementById("menu-panel");
+
+    function openMenu() {
+        menuPanel.classList.remove("translate-x-full");
+        menuPanel.setAttribute("aria-hidden", "false");
+        menuBtn.setAttribute("aria-expanded", "true");
+        document.body.classList.add("overflow-hidden"); // empêche le scroll
+    }
+
+    function closeMenuPanel() {
+        menuPanel.classList.add("translate-x-full");
+        menuPanel.setAttribute("aria-hidden", "true");
+        menuBtn.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("overflow-hidden");
+    }
+
+    // Ferme le menu quand on clique n'importe où sur la page,
+    // sauf si le clic est sur le bouton du menu ou à l'intérieur du panneau.
+    function onDocumentClick(e) {
+        if (!menuPanel || !menuBtn) return;
+        const isOpen = !menuPanel.classList.contains("translate-x-full");
+        if (!isOpen) return;
+
+        const target = e.target;
+        if (menuPanel.contains(target) || menuBtn.contains(target)) {
+            return; // clic à l'intérieur du panneau ou sur le bouton -> ne pas fermer
+        }
+
+        closeMenuPanel();
+    }
+
+    if (menuBtn && closeMenu && menuPanel) {
+        menuBtn.addEventListener("click", openMenu);
+        closeMenu.addEventListener("click", closeMenuPanel);
+        document.addEventListener("click", onDocumentClick);
+    }
+</script>
