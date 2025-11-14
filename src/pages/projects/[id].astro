@@ -1,6 +1,5 @@
 ---
 import LayoutProjet from "../../layouts/LayoutProjet.astro";
-
 import pb from "../../../pocketbase/pb";
 import {
   Collections,
@@ -38,6 +37,10 @@ const outils: string[] = Array.isArray(projet.outils)
   : projet.outils
     ? [projet.outils]
     : [];
+
+// ✅ Utiliser la vraie base URL PocketBase
+const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
+// si tu as configuré Apache pour que /api/ pointe vers PocketBase
 ---
 
 <LayoutProjet titreProjet={projet.titre}>
@@ -49,7 +52,7 @@ const outils: string[] = Array.isArray(projet.outils)
 
     <!-- Image principale -->
     <img
-      src={`${import.meta.env.PUBLIC_PB_URL}/api/files/${projet.collectionId}/${projet.id}/${projet.imageCouverture}`}
+      src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${projet.imageCouverture}`}
       alt={projet.titre}
       class="w-full rounded-2xl shadow-lg object-cover"
     />
@@ -60,14 +63,13 @@ const outils: string[] = Array.isArray(projet.outils)
         <section class="space-y-4">
           <h2 class="text-3xl font-semibold">Contexte</h2>
           <div class="prose max-w-none" set:html={projet.contexte} />
-          {imageContexte.length > 0 &&
-            imageContexte.map((file) => (
-              <img
-                src={`${import.meta.env.PUBLIC_PB_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
-                alt="Contexte visuel"
-                class="rounded-xl shadow-md"
-              />
-            ))}
+          {imageContexte.map((file) => (
+            <img
+              src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+              alt="Contexte visuel"
+              class="rounded-xl shadow-md"
+            />
+          ))}
         </section>
       )
     }
@@ -116,13 +118,23 @@ const outils: string[] = Array.isArray(projet.outils)
         <section>
           <h2 class="text-3xl font-semibold mb-3">Résultats finaux</h2>
           <div class="grid md:grid-cols-2 gap-6">
-            {resultatImages.map((file) => (
-              <img
-                src={`${import.meta.env.PUBLIC_PB_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
-                alt="Résultat"
-                class="rounded-lg shadow-md"
-              />
-            ))}
+            {resultatImages.map((file) => {
+              // détecter les vidéos
+              const isVideo = file.endsWith(".mp4") || file.endsWith(".webm");
+              return isVideo ? (
+                <video controls class="rounded-lg shadow-md">
+                  <source
+                    src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                  />
+                </video>
+              ) : (
+                <img
+                  src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                  alt="Résultat"
+                  class="rounded-lg shadow-md"
+                />
+              );
+            })}
           </div>
         </section>
       )
