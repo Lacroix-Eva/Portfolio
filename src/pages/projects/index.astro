@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 
 import ImgTitre from "../../assets/nom_page/Projets.svg";
 
-import { pb } from "../../../pocketbase/pb";
+import pb from "../../../pocketbase/pb";
 
 const projets = await pb.collection("Projets").getFullList();
 ---
@@ -16,17 +16,19 @@ const projets = await pb.collection("Projets").getFullList();
 >
   <p class="text-xs">Liste des projets :</p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projets.map((project) => (
-          <a
-            href={`/projects/${project.id}`}
-            class="card bg-base-200 hover:shadow-xl transition-shadow duration-300"
-          >
-            <div class="card-body">
-              <h2 class="card-title">{project.titre}</h2>
-              <p>{project.description}</p>
-            </div>
-          </a>
-        ))}
-      </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {
+      projets.map((project) => (
+        <a
+          href={`/projects/${project.id}`}
+          class="card bg-base-200 hover:shadow-xl transition-shadow duration-300"
+        >
+          <div class="card-body">
+            <h2 class="card-title">{project.titre}</h2>
+            <p>{project.description}</p>
+          </div>
+        </a>
+      ))
+    }
+  </div>
 </Layout>

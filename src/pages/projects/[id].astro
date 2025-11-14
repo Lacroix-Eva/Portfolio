@@ -1,23 +1,19 @@
 ---
 import LayoutProjet from "../../layouts/LayoutProjet.astro";
 import ImgTitre from "../../assets/nom_page/Projets.svg";
-import { pb } from "../../../pocketbase/pb";
+
+import pb from "../../../pocketbase/pb";
 import {
   Collections,
   type ProjetsRecord,
 } from "../../../pocketbase/pocketbase-types";
 
-// Astro doit savoir quelles pages générer
-export async function getStaticPaths() {
-  const projets = await pb.collection(Collections.Projets).getFullList();
-  return projets.map((projet) => ({
-    params: { id: projet.id },
-    props: { projet },
-  }));
-}
+const id = Astro.params.id;
 
-// Récupération du projet
-const { projet } = Astro.props;
+// Charger le projet dynamiquement en SSR
+const projet: ProjetsRecord = await pb
+  .collection(Collections.Projets)
+  .getOne(id);
 
 // Sécuriser les champs multi-fichiers / multi-valeurs
 const resultatImages: string[] = Array.isArray(projet.resultatImage)
