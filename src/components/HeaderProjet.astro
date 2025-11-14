@@ -1,10 +1,5 @@
 ---
 const { item } = Astro.props;
-import { Image } from "astro:assets";
-
-import ProjetsTitre from "../../public/nom_page/Projets.svg";
-import AboutTitre from "../../public/nom_page/A_propos.svg";
-import ContactTitre from "../../public/nom_page/Contact.svg";
 ---
 
 <header class="relative flex items-center justify-between lg:m-0 mb-14">
@@ -18,11 +13,11 @@ import ContactTitre from "../../public/nom_page/Contact.svg";
   </a>
 
   <!-- Nom au centre -->
-    <h1
-      class="absolute inset-x-0 inset-y-0 flex items-center justify-center mx-4 lg:mx-29 mt-40 lg:mt-60"
-    >
-      {item.titreProjet}
-    </h1>
+  <h1
+    class="absolute inset-x-0 inset-y-0 flex items-center justify-center mx-4 lg:mx-29 mt-40 lg:mt-60"
+  >
+    {item.titreProjet}
+  </h1>
 
   <!-- Bouton menu à droite -->
   <div class="absolute right-0">
@@ -67,14 +62,19 @@ import ContactTitre from "../../public/nom_page/Contact.svg";
     <ul class="flex flex-col items-start mt-25">
       <li>
         <a href="/projects" aria-label="Projets">
-          <Image src={ProjetsTitre} alt="Projets" width="817" height="350" />
+          <img
+            src="/nom_page/Projets.svg"
+            alt="Projets"
+            width="817"
+            height="350"
+          />
         </a>
       </li>
 
       <li>
         <a href="/about" aria-label="À propos">
-          <Image
-            src={AboutTitre}
+          <img
+            src="/nom_page/A_propos.svg"
             alt="À propos"
             width="817"
             height="350"
@@ -84,8 +84,8 @@ import ContactTitre from "../../public/nom_page/Contact.svg";
       </li>
       <li>
         <a href="/contact" aria-label="Contact">
-          <Image
-            src={ContactTitre}
+          <img
+            src="/nom_page/Contact.svg"
             alt="Contact"
             width="817"
             height="350"

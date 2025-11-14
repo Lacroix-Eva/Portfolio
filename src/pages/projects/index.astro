@@ -1,8 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 
-import ImgTitre from "../../../public/nom_page/Projets.svg";
-
 import pb from "../../../pocketbase/pb";
 
 const projets = await pb.collection("Projets").getFullList();
@@ -11,7 +9,7 @@ const projets = await pb.collection("Projets").getFullList();
 <Layout
   titre="Projets"
   description="Page listant tous mes projets"
-  imgTitre={ImgTitre}
+  imgTitre="/nom_page/Projets.svg"
   altImgTitre="Projets"
 >
   <p class="text-xs">Liste des projets :</p>
