@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 
 const { ...item } = Astro.props;
 ---
@@ -19,7 +20,7 @@ const { ...item } = Astro.props;
   </head>
 
   <body
-    class="relative min-h-screen flex flex-col bg-base-100text-base-content overflow-hidden"
+    class="relative min-h-screen flex flex-col text-base-content overflow-x-hidden"
   >
     <div
       id="background-stars"
@@ -27,8 +28,9 @@ const { ...item } = Astro.props;
       aria-hidden="true"
     >
     </div>
-    <Header item={{ img: item.imgTitre }} />
+    <Header item={{ img: item.imgTitre, altImg: item.altImgTitre }} />
     <slot />
+    <Footer />
   </body>
 </html>
 

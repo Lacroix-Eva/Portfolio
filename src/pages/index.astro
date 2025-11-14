@@ -1,16 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
-
 import ImgTitre from "../assets/nom_page/Projets.svg";
-
-import { pb } from "../utils/pb";
-
-const projets = await pb.collection("Projets").getFullList();
 ---
 
-<Layout titre="Titre test" description="Description test" imgTitre={ImgTitre}>
-  <ul>
-    {projets.map((projet) => <li>{projet.titre}</li>)}
-  </ul>
-  
-</Layout>
+<Layout
+  titre="Titre test"
+  description="Description test"
+  imgTitre={ImgTitre}
+  altImgTitre="Projets"
+/>

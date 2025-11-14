@@ -1,0 +1,174 @@
+---
+import { Image } from "astro:assets";
+
+// Image de fond
+import FooterBg from "../assets/img/fond_footer.webp"; // <-- remplace par ton image exacte
+import LogoBlanc from "../assets/icons/logoBlanc.png";
+
+// Icônes coordonnées
+import IconMail from "../assets/icons/email.svg";
+import IconTel from "../assets/icons/phone.svg";
+import IconLocalisation from "../assets/icons/map_pointer.svg";
+
+// Icônes réseaux
+import IconLinkedin from "../assets/icons/LinkedIn_footer.svg";
+import IconBehance from "../assets/icons/Behance_footer.svg";
+---
+
+<footer class="relative w-full overflow-hidden">
+  <!-- Image de fond + dégradé -->
+  <div class="relative w-full">
+    <img
+      src={FooterBg.src}
+      alt="Fond du footer"
+      width="1728"
+      height="753"
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+    <div
+      class="absolute inset-0"
+      style="background: linear-gradient(180deg, var(--color-base-100) 7.69%, rgba(0, 4, 48, 0.45) 83.17%);"
+    >
+    </div>
+    <div class="relative z-10 flex flex-col sm:flex-wrap sm:flex-row justify-center items-stretch gap-4 lg:gap-25 pt-11 lg:pt-77 px-5 lg:p-5 w-full">
+
+      <!-- 1️⃣ Carte : Logo -->
+      <div
+        class="card bg-black/50 backdrop-blur-sm w-75 pr-5 md:px-9 lg:px-9 md:pb-3 lg:pb-3 min-h-full"
+      >
+        <div
+          class="card-body p-0 flex flex-row items-center gap-0 lg:gap-3 md:flex-col md:items-center"
+        >
+          <a href="/" class="block">
+            <img
+              src={LogoBlanc.src}
+              alt="Logo"
+              class="lg:w-56 lg:h-56 md:w-40 md:h-40 w-24 h-24"
+            />
+          </a>
+          <h4 class="lg:text-2xl">Web Designer</h4>
+        </div>
+      </div>
+
+      <!-- 2️⃣ Carte : Navigation -->
+      <div class="card bg-black/50 backdrop-blur-sm w-65 p-5 lg:p-8 min-h-full">
+        <div class="flex flex-col p-0 gap-4 lg:gap-5">
+          <h4 class="lg:text-2xl">Navigation</h4>
+          <ul
+            class="flex flex-col p-0 text-base lg:text-xl gap-3 lg:gap-4 text-neutral"
+          >
+            <li><a href="/" class="hover:text-secondary">Accueil</a></li>
+            <li>
+              <a href="/projects" class="hover:text-secondary">Projets</a>
+            </li>
+            <li>
+              <a href="/about" class="hover:text-secondary">À propos</a>
+            </li>
+            <li>
+              <a href="/contact" class="hover:text-secondary">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 3️⃣ Carte : Coordonnées -->
+      <div class="card bg-black/50 backdrop-blur-sm w-75 lg:w-82 p-5 lg:p-8 min-h-full">
+        <div class="flex flex-col p-0 gap-4 lg:gap-5">
+          <h4 class="lg:text-2xl">Coordonnées</h4>
+          <ul
+            class="flex flex-col p-0 text-base lg:text-xl gap-3 lg:gap-4 text-neutral"
+          >
+            <li>
+              <a
+                href="https://maps.app.goo.gl/vD9UDxwzYrsv8yYt7"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-3 hover:text-secondary"
+              >
+                <img
+                  src={IconLocalisation.src}
+                  alt="Localisation"
+                  width="28"
+                  height="28"
+                />
+                <span>67 rue de Belfort,<br />25 200 Montbéliard</span>
+              </a>
+            </li>
+
+            <li>
+              <a
+                href="tel:0673778686"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-3 hover:text-secondary"
+              >
+                <img src={IconTel.src} alt="Téléphone" width="32" height="27" />
+                <span>06 73 77 86 86</span>
+              </a>
+            </li>
+
+            <li>
+              <a
+                href="mailto:lacroixeva32@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-3 hover:text-secondary"
+              >
+                <img src={IconMail.src} alt="Email" width="28" height="28" />
+                <span>lacroixeva32@gmail.com</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 4️⃣ Carte : Réseaux -->
+      <div class="card bg-black/50 backdrop-blur-sm w-65 p-5 lg:p-8 min-h-full">
+        <div class="flex flex-col p-0 gap-4 lg:gap-5">
+          <h4 class="lg:text-2xl">Mes Réseaux</h4>
+          <ul
+            class="flex flex-col p-0 text-base lg:text-xl gap-3 lg:gap-4 text-neutral"
+          >
+            <li>
+              <a
+                href="https://www.linkedin.com/in/eva-lacroix-50ab6131a/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-end gap-3 hover:text-secondary"
+              >
+                <img
+                  src={IconLinkedin.src}
+                  alt="LinkedIn"
+                  class="w-10 h-10 lg:w-12 lg:h-12"
+                />
+                <span>/eva-lacroix-50ab6131a</span>
+              </a>
+            </li>
+
+            <li>
+              <a
+                href="https://www.behance.net/evalacroix"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-end gap-3 hover:text-secondary"
+              >
+                <img
+                  src={IconBehance.src}
+                  alt="Behance"
+                  class="w-10 h-10 lg:w-12 lg:h-12"
+                />
+                <span>/evalacroix</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="relative z-10 text-center text-base lg:text-xl py-8 lg:pt-16 lg:pb-25 px-12 lg:px-5 font-semibold"
+    >
+      © {new Date().getFullYear()} Eva Lacroix. Tous droits réservés. | Voyagez
+      dans mon univers
+    </div>
+  </div>
+</footer>

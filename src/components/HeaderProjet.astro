@@ -1,0 +1,139 @@
+---
+const { item } = Astro.props;
+import { Image } from "astro:assets";
+
+import ProjetsTitre from "../assets/nom_page/Projets.svg";
+import AboutTitre from "../assets/nom_page/A_propos.svg";
+import ContactTitre from "../assets/nom_page/Contact.svg";
+---
+
+<header class="relative flex items-center justify-between lg:m-0 mb-14">
+  <!-- Logo à gauche -->
+  <a href="/" aria-label="Accueil">
+    <img
+      src="/src/assets/icons/logoBlanc.png"
+      alt="Logo"
+      class="w-24 h-24 md:w-32 md:h-32 lg:w-44 lg:h-44"
+    />
+  </a>
+
+  <!-- Nom au centre -->
+    <h1
+      class="absolute inset-x-0 inset-y-0 flex items-center justify-center mx-4 lg:mx-29 mt-40 lg:mt-60"
+    >
+      {item.titreProjet}
+    </h1>
+
+  <!-- Bouton menu à droite -->
+  <div class="absolute right-0">
+    <button
+      id="menu-btn"
+      class="focus:outline-none mr-5"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+    >
+      <img
+        src="/src/assets/icons/menu.svg"
+        alt="Menu"
+        class="cursor-pointer
+        w-16
+        h-16
+        md:w-24
+        md:h-24
+        lg:w-32
+        lg:h-32"
+      />
+    </button>
+  </div>
+
+  <!-- Menu latéral -->
+  <nav
+    id="menu-panel"
+    class="fixed top-0 right-0 h-full w-190 max-w-full bg-base-200 transform translate-x-full transition-transform duration-500 ease-in-out shadow-xl z-40"
+    aria-hidden="true"
+  >
+    <div class="absolute right-0">
+      <img
+        src="/src/assets/icons/croix.svg"
+        alt="Fermer le menu"
+        id="close-menu"
+        width="96"
+        height="96"
+        class="cursor-pointer mr-8 mt-9"
+      />
+    </div>
+
+    <!-- Liens du menu -->
+    <ul class="flex flex-col items-start mt-25">
+      <li>
+        <a href="/projects" aria-label="Projets">
+          <Image src={ProjetsTitre} alt="Projets" width="817" height="350" />
+        </a>
+      </li>
+
+      <li>
+        <a href="/about" aria-label="À propos">
+          <Image
+            src={AboutTitre}
+            alt="À propos"
+            width="817"
+            height="350"
+            class="-mt-20"
+          />
+        </a>
+      </li>
+      <li>
+        <a href="/contact" aria-label="Contact">
+          <Image
+            src={ContactTitre}
+            alt="Contact"
+            width="817"
+            height="350"
+            class="-mt-20"
+          />
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const menuBtn = document.getElementById("menu-btn");
+  const closeMenu = document.getElementById("close-menu");
+  const menuPanel = document.getElementById("menu-panel");
+
+  function openMenu() {
+    menuPanel.classList.remove("translate-x-full");
+    menuPanel.setAttribute("aria-hidden", "false");
+    menuBtn.setAttribute("aria-expanded", "true");
+    document.body.classList.add("overflow-hidden"); // empêche le scroll
+  }
+
+  function closeMenuPanel() {
+    menuPanel.classList.add("translate-x-full");
+    menuPanel.setAttribute("aria-hidden", "true");
+    menuBtn.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("overflow-hidden");
+  }
+
+  // Ferme le menu quand on clique n'importe où sur la page,
+  // sauf si le clic est sur le bouton du menu ou à l'intérieur du panneau.
+  function onDocumentClick(e) {
+    if (!menuPanel || !menuBtn) return;
+    const isOpen = !menuPanel.classList.contains("translate-x-full");
+    if (!isOpen) return;
+
+    const target = e.target;
+    if (menuPanel.contains(target) || menuBtn.contains(target)) {
+      return; // clic à l'intérieur du panneau ou sur le bouton -> ne pas fermer
+    }
+
+    closeMenuPanel();
+  }
+
+  if (menuBtn && closeMenu && menuPanel) {
+    menuBtn.addEventListener("click", openMenu);
+    closeMenu.addEventListener("click", closeMenuPanel);
+    document.addEventListener("click", onDocumentClick);
+  }
+</script>

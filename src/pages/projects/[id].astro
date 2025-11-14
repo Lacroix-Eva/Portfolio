@@ -1,0 +1,160 @@
+---
+import LayoutProjet from "../../layouts/LayoutProjet.astro";
+import ImgTitre from "../../assets/nom_page/Projets.svg";
+import { pb } from "../../../pocketbase/pb";
+import {
+  Collections,
+  type ProjetsRecord,
+} from "../../../pocketbase/pocketbase-types";
+
+// Astro doit savoir quelles pages générer
+export async function getStaticPaths() {
+  const projets = await pb.collection(Collections.Projets).getFullList();
+  return projets.map((projet) => ({
+    params: { id: projet.id },
+    props: { projet },
+  }));
+}
+
+// Récupération du projet
+const { projet } = Astro.props;
+
+// Sécuriser les champs multi-fichiers / multi-valeurs
+const resultatImages: string[] = Array.isArray(projet.resultatImage)
+  ? projet.resultatImage
+  : projet.resultatImage
+    ? [projet.resultatImage]
+    : [];
+
+const imageContexte: string[] = Array.isArray(projet.imageContexte)
+  ? projet.imageContexte
+  : projet.imageContexte
+    ? [projet.imageContexte]
+    : [];
+
+const roles: string[] = Array.isArray(projet.role)
+  ? projet.role
+  : projet.role
+    ? [projet.role]
+    : [];
+
+const outils: string[] = Array.isArray(projet.outils)
+  ? projet.outils
+  : projet.outils
+    ? [projet.outils]
+    : [];
+---
+
+<LayoutProjet titreProjet={projet.titre}>
+  <main class="max-w-5xl mx-auto py-16 px-6 space-y-12">
+    <!-- Titre + année + type -->
+    <header class="text-center space-y-2">
+      <p class="text-lg opacity-80">{projet.categorie} • {projet.annee}</p>
+    </header>
+
+    <!-- Image principale -->
+    <img
+      src={`${import.meta.env.PUBLIC_PB_URL}/api/files/${projet.collectionId}/${projet.id}/${projet.imageCouverture}`}
+      alt={projet.titre}
+      class="w-full rounded-2xl shadow-lg object-cover"
+    />
+
+    <!-- Contexte -->
+    {
+      projet.contexte && (
+        <section class="space-y-4">
+          <h2 class="text-3xl font-semibold">Contexte</h2>
+          <div class="prose max-w-none" set:html={projet.contexte} />
+          {imageContexte.length > 0 &&
+            imageContexte.map((file) => (
+              <img
+                src={`${import.meta.env.PUBLIC_PB_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                alt="Contexte visuel"
+                class="rounded-xl shadow-md"
+              />
+            ))}
+        </section>
+      )
+    }
+
+    <!-- Rôle -->
+    {
+      roles.length > 0 && (
+        <section>
+          <h2 class="text-3xl font-semibold mb-3">Mon rôle</h2>
+          <ul class="list-disc list-inside space-y-2">
+            {roles.map((r) => (
+              <li>{r}</li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <!-- Processus -->
+    {
+      projet.processus && (
+        <section>
+          <h2 class="text-3xl font-semibold mb-3">Processus</h2>
+          <div class="prose max-w-none" set:html={projet.processus} />
+        </section>
+      )
+    }
+
+    <!-- Compétences mobilisées -->
+    {
+      roles.length > 0 && (
+        <section>
+          <h2 class="text-3xl font-semibold mb-3">Compétences mobilisées</h2>
+          <ul class="list-disc list-inside grid md:grid-cols-2 gap-x-4">
+            {roles.map((role) => (
+              <li>{role}</li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <!-- Résultats -->
+    {
+      resultatImages.length > 0 && (
+        <section>
+          <h2 class="text-3xl font-semibold mb-3">Résultats finaux</h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            {resultatImages.map((file) => (
+              <img
+                src={`${import.meta.env.PUBLIC_PB_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                alt="Résultat"
+                class="rounded-lg shadow-md"
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <!-- Bilan / Valeur ajoutée -->
+    {
+      projet.bilan && (
+        <section>
+          <h2 class="text-3xl font-semibold mb-3">Bilan et valeur ajoutée</h2>
+          <div class="prose max-w-none" set:html={projet.bilan} />
+        </section>
+      )
+    }
+
+    <!-- Outils utilisés -->
+    {
+      outils.length > 0 && (
+        <section>
+          <h2 class="text-3xl font-semibold mb-3">Outils utilisés</h2>
+          <ul class="flex flex-wrap gap-3">
+            {outils.map((outil) => (
+              <li class="badge badge-secondary badge-lg">{outil}</li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </main>
+</LayoutProjet>
