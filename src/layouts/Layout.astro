@@ -57,7 +57,7 @@ const { ...item } = Astro.props;
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
     // Adaptation du nombre d'éléments selon l'écran
-    const total = isMobile ? 30 : 60; // 30 sur mobile, 60 sur desktop
+    const total = isMobile ? 45 : 90; // 45 sur mobile, 90 sur desktop
 
     for (let i = 0; i < total; i++) {
       const el = document.createElement("div");
