@@ -55,6 +55,8 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
       src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${projet.imageCouverture}`}
       alt={projet.titre}
       class="w-full rounded-2xl shadow-lg object-cover"
+      style="aspect-ratio:16/9; width:100%; height:auto; object-fit:cover;"
+      loading="eager"
     />
 
     <!-- Contexte -->
@@ -68,6 +70,8 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
               src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
               alt="Contexte visuel"
               class="rounded-xl shadow-md"
+              style="aspect-ratio:4/3; width:100%; height:auto; object-fit:cover;"
+              loading="lazy"
             />
           ))}
         </section>
@@ -122,7 +126,11 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
               // détecter les vidéos
               const isVideo = file.endsWith(".mp4") || file.endsWith(".webm");
               return isVideo ? (
-                <video controls class="rounded-lg shadow-md">
+                <video
+                  controls
+                  class="rounded-lg shadow-md"
+                  style="aspect-ratio:16/9; width:100%; height:auto;"
+                >
                   <source
                     src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
                   />
@@ -132,6 +140,8 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
                   src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
                   alt="Résultat"
                   class="rounded-lg shadow-md"
+                  style="aspect-ratio:4/3; width:100%; height:auto; object-fit:cover;"
+                  loading="lazy"
                 />
               );
             })}

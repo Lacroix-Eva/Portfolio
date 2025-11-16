@@ -30,7 +30,7 @@ const { ...item } = Astro.props;
     </div>
     <HeaderProjet
       item={{
-        titreProjet: item.titreProjet
+        titreProjet: item.titreProjet,
       }}
     />
     <slot />
@@ -39,63 +39,79 @@ const { ...item } = Astro.props;
 </html>
 
 <script>
+  // Empêcher la restauration automatique du scroll au rechargement
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+  window.addEventListener("pageshow", (e) => {
+    if (e.persisted) {
+      window.scrollTo(0, 0);
+    }
+  });
+  window.addEventListener("load", () => {
+    // Forcer en haut au chargement pour éviter des positions restaurées après des layout shifts
+    window.scrollTo(0, 0);
+  });
+
   // Fond étoilé dynamique avec adaptation mobile
   const container = document.getElementById("background-stars");
 
-  // Détection mobile avec matchMedia
-  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  if (container) {
+    // Détection mobile avec matchMedia
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-  // Adaptation du nombre d'éléments selon l'écran
-  const total = isMobile ? 30 : 60; // 30 sur mobile, 60 sur desktop
+    // Adaptation du nombre d'éléments selon l'écran
+    const total = isMobile ? 30 : 60; // 30 sur mobile, 60 sur desktop
 
-  for (let i = 0; i < total; i++) {
-    const el = document.createElement("div");
-    const isStar = Math.random() < 0.25; // 25% étoiles ✦, 75% points
+    for (let i = 0; i < total; i++) {
+      const el = document.createElement("div");
+      const isStar = Math.random() < 0.25; // 25% étoiles ✦, 75% points
 
-    if (isStar) {
-      el.textContent = "✦";
-      el.className = "absolute text-white opacity-80 animate-twinkle";
+      if (isStar) {
+        el.textContent = "✦";
+        el.className = "absolute text-white opacity-80 animate-twinkle";
 
-      // Tailles adaptées: plus petites sur mobile
-      const starSize = isMobile
-        ? Math.random() * 0.6 + 0.3 // mobile: 0.3-0.9rem
-        : Math.random() * 0.8 + 0.4; // desktop: 0.4-1.2rem
-      el.style.fontSize = `${starSize}rem`;
-    } else {
-      el.className =
-        "absolute bg-white rounded-full opacity-70 animate-twinkle";
-      // Points plus fins sur mobile
-      const pointSize = isMobile
-        ? Math.random() * 1 + 0.5 // mobile: 0.5-1.5px
-        : Math.random() * 2 + 1; // desktop: 0.8-2.3px
-      el.style.width = `${pointSize}px`;
-      el.style.height = `${pointSize}px`;
+        // Tailles adaptées: plus petites sur mobile
+        const starSize = isMobile
+          ? Math.random() * 0.6 + 0.3 // mobile: 0.3-0.9rem
+          : Math.random() * 0.8 + 0.4; // desktop: 0.4-1.2rem
+        el.style.fontSize = `${starSize}rem`;
+      } else {
+        el.className =
+          "absolute bg-white rounded-full opacity-70 animate-twinkle";
+        // Points plus fins sur mobile
+        const pointSize = isMobile
+          ? Math.random() * 1 + 0.5 // mobile: 0.5-1.5px
+          : Math.random() * 2 + 1; // desktop: 0.8-2.3px
+        el.style.width = `${pointSize}px`;
+        el.style.height = `${pointSize}px`;
+      }
+
+      const depth = Math.random();
+      el.style.left = `${Math.random() * 100}%`;
+      el.style.top = `${Math.random() * 100}%`;
+      el.style.animationDelay = `${Math.random() * 4}s`;
+      el.style.opacity = `${0.3 + 0.5 * depth}`;
+      el.style.transform = `scale(${0.4 + depth * 0.6})`;
+      el.style.zIndex = `${Math.floor(depth * 10)}`;
+      el.style.animation = `twinkle ${4 + depth * 4}s ease-in-out infinite, float ${9 + depth * 5}s ease-in-out infinite`;
+
+      container.appendChild(el);
     }
 
-    const depth = Math.random();
-    el.style.left = `${Math.random() * 100}%`;
-    el.style.top = `${Math.random() * 100}%`;
-    el.style.animationDelay = `${Math.random() * 4}s`;
-    el.style.opacity = `${0.3 + 0.5 * depth}`;
-    el.style.transform = `scale(${0.4 + depth * 0.6})`;
-    el.style.zIndex = `${Math.floor(depth * 10)}`;
-    el.style.animation = `twinkle ${4 + depth * 4}s ease-in-out infinite, float ${9 + depth * 5}s ease-in-out infinite`;
+    // Réinitialisation responsive lors du redimensionnement
+    window.addEventListener("resize", () => {
+      const wasMobile = container.dataset.isMobile === "true";
+      const isNowMobile = window.matchMedia("(max-width: 768px)").matches;
 
-    container.appendChild(el);
+      // Recharger seulement si passage mobile ↔ desktop
+      if (wasMobile !== isNowMobile) {
+        container.innerHTML = "";
+        container.dataset.isMobile = String(isNowMobile);
+        location.reload(); // ou réexécuter le script
+      }
+    });
+
+    container.dataset.isMobile = String(isMobile);
   }
-
-  // Réinitialisation responsive lors du redimensionnement
-  window.addEventListener("resize", () => {
-    const wasMobile = container.dataset.isMobile === "true";
-    const isNowMobile = window.matchMedia("(max-width: 768px)").matches;
-
-    // Recharger seulement si passage mobile ↔ desktop
-    if (wasMobile !== isNowMobile) {
-      container.innerHTML = "";
-      container.dataset.isMobile = isNowMobile;
-      location.reload(); // ou réexécuter le script
-    }
-  });
-
-  container.dataset.isMobile = isMobile;
 </script>
