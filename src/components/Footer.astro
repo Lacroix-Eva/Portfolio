@@ -1,6 +1,5 @@
 ---
 // Image de fond
-import FooterBg from "../../public/img/fond_footer.webp"; // <-- remplace par ton image exacte
 import LogoBlanc from "../../public/icons/logoBlanc.png";
 
 // Icônes coordonnées
@@ -16,20 +15,27 @@ import IconBehance from "../../public/icons/Behance_footer.svg";
 <footer class="relative w-full overflow-hidden">
   <!-- Image de fond + dégradé -->
   <div class="relative w-full">
-    <img
-      src={FooterBg.src}
-      alt="Fond du footer"
+    
+    <video
+      class="absolute -inset-y-10 w-full object-cover"
       width="1728"
       height="753"
-      class="absolute inset-0 w-full h-full object-cover"
-    />
+      playsinline
+      autoplay
+      muted
+      loop
+      aria-label="Fond du footer"
+    >
+      <source src="/video/1119.mp4" type="video/mp4" />
+      Votre navigateur ne supporte pas la vidéo.
+    </video>
     <div
-      class="absolute inset-0"
-      style="background: linear-gradient(180deg, var(--color-base-100) 7.69%, rgba(0, 4, 48, 0.45) 83.17%);"
+      class="absolute -inset-10 bg-[linear-gradient(180deg,var(--color-base-100)_15%,rgba(0,4,48,0.40)_80%)]"
     >
     </div>
-    <div class="relative z-10 flex flex-col sm:flex-wrap sm:flex-row justify-center items-stretch gap-4 lg:gap-25 pt-11 lg:pt-77 px-5 lg:p-5 w-full">
-
+    <div
+      class="relative z-10 flex flex-col sm:flex-wrap sm:flex-row justify-center items-stretch gap-4 lg:gap-25 pt-11 lg:pt-40 px-5 lg:p-5 w-full"
+    >
       <!-- 1️⃣ Carte : Logo -->
       <div
         class="card bg-black/50 backdrop-blur-sm w-75 pr-5 md:px-9 lg:px-9 md:pb-3 lg:pb-3 min-h-full"
@@ -70,7 +76,9 @@ import IconBehance from "../../public/icons/Behance_footer.svg";
       </div>
 
       <!-- 3️⃣ Carte : Coordonnées -->
-      <div class="card bg-black/50 backdrop-blur-sm w-75 lg:w-82 p-5 lg:p-8 min-h-full">
+      <div
+        class="card bg-black/50 backdrop-blur-sm w-75 lg:w-82 p-5 lg:p-8 min-h-full"
+      >
         <div class="flex flex-col p-0 gap-4 lg:gap-5">
           <h4 class="lg:text-2xl">Coordonnées</h4>
           <ul

@@ -28,13 +28,9 @@ const { ...item } = Astro.props;
       aria-hidden="true"
     >
     </div>
-    <HeaderProjet
-      item={{
-        titreProjet: item.titreProjet,
-      }}
-    />
+    <HeaderProjet/>
     <slot />
-    <Footer />
+    <Footer/>
   </body>
 </html>
 

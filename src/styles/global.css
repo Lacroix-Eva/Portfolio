@@ -60,7 +60,7 @@
     }
 
     h2 {
-      @apply text-xl font-semibold lg:text-xl;  
+      @apply text-xl font-semibold lg:text-5xl;  
     }
 
     h3 {
@@ -72,6 +72,7 @@
     }
 
     p {
+        @apply text-sm lg:text-2xl;
     }
 }
 

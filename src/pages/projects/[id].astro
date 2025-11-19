@@ -43,37 +43,79 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
 // si tu as configuré Apache pour que /api/ pointe vers PocketBase
 ---
 
-<LayoutProjet titreProjet={projet.titre}>
-  <main class="max-w-5xl mx-auto py-16 px-6 space-y-12">
-    <!-- Titre + année + type -->
-    <header class="text-center space-y-2">
-      <p class="text-lg opacity-80">{projet.categorie} • {projet.annee}</p>
-    </header>
+<LayoutProjet>
+  <h1 class="inset-x-0 flex justify-center mx-4 lg:mx-10 bg-base-100">
+    {projet.titre}
+  </h1>
+
+  <main class="pt-6 px-5 lg:px-25">
+    <div class="flex flex-wrap gap-3 justify-center mb-10">
+      <div
+        class="inline-flex bg-linear-to-b from-secondary to-primary font-medium py-1 items-center px-4 rounded-4xl"
+      >
+        <p class="text-xl">{projet.categorie}</p>
+      </div>
+      <div
+        class="inline-flex bg-linear-to-b from-secondary to-primary font-medium py-1 items-center px-4 rounded-4xl"
+      >
+        <p class="text-xl">{projet.annee}</p>
+      </div>
+      <div
+        class="inline-flex bg-linear-to-b from-secondary to-primary font-medium py-1 items-center px-4 rounded-4xl"
+      >
+        <p class="text-xl">{projet.roleBadge1}</p>
+      </div>
+      {
+        projet.roleBadge2?.trim() && (
+          <div class="inline-flex bg-linear-to-b from-secondary to-primary font-medium py-1 items-center px-4 rounded-4xl">
+            <p class="text-xl">{projet.roleBadge2}</p>
+          </div>
+        )
+      }
+    </div>
 
     <!-- Image principale -->
-    <img
-      src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${projet.imageCouverture}`}
-      alt={projet.titre}
-      class="w-full rounded-2xl shadow-lg object-cover"
-      style="aspect-ratio:16/9; width:100%; height:auto; object-fit:cover;"
-      loading="eager"
-    />
+    <div class="flex justify-center">
+      <img
+        src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${projet.imageCouverture}`}
+        alt={`visuel principal ${projet.titre}`}
+        class="w-full md:w-3/4 rounded-2xl shadow-lg object-cover mb-0"
+        style="aspect-ratio:16/9; height:auto; object-fit:cover;"
+        loading="eager"
+      />
+    </div>
 
     <!-- Contexte -->
     {
       projet.contexte && (
-        <section class="space-y-4">
-          <h2 class="text-3xl font-semibold">Contexte</h2>
-          <div class="prose max-w-none" set:html={projet.contexte} />
-          {imageContexte.map((file) => (
-            <img
-              src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
-              alt="Contexte visuel"
-              class="rounded-xl shadow-md"
-              style="aspect-ratio:4/3; width:100%; height:auto; object-fit:cover;"
-              loading="lazy"
-            />
-          ))}
+        <section class="mt-15">
+          <h2 class="mb-4">Contexte</h2>
+          <div class=" grid grid-cols-1 md:grid-cols-2 gap-9 items-start ">
+            <div class="bg-base-100">
+              <p
+                class="prose max-w-none"
+                set:html={String(projet.contexte || "")
+                  .replace(/&/g, "&amp;")
+                  .replace(/</g, "&lt;")
+                  .replace(/>/g, "&gt;")
+                  .replace(/"/g, "&quot;")
+                  .replace(/'/g, "&#39;")
+                  .replace(/\r\n|\r|\n/g, "<br/>")}
+              />
+            </div>
+
+            <div class="flex flex-col gap-4">
+              {imageContexte.map((file) => (
+                <img
+                  src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                  alt="Contexte visuel"
+                  class="w-full object-cover"
+                  style="width:100%; height:auto;"
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          </div>
         </section>
       )
     }
@@ -81,9 +123,9 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
     <!-- Rôle -->
     {
       roles.length > 0 && (
-        <section>
-          <h2 class="text-3xl font-semibold mb-3">Mon rôle</h2>
-          <ul class="list-disc list-inside space-y-2">
+        <section class="mt-15">
+          <h2 class="mb-4">Mon rôle</h2>
+          <ul class="list-disc list-inside space-y-2 text-sm lg:text-2xl ml-8">
             {roles.map((r) => (
               <li>{r}</li>
             ))}
@@ -94,68 +136,128 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
 
     <!-- Processus -->
     {
-      projet.processus && (
-        <section>
-          <h2 class="text-3xl font-semibold mb-3">Processus</h2>
-          <div class="prose max-w-none" set:html={projet.processus} />
-        </section>
-      )
-    }
-
-    <!-- Compétences mobilisées -->
-    {
-      roles.length > 0 && (
-        <section>
-          <h2 class="text-3xl font-semibold mb-3">Compétences mobilisées</h2>
-          <ul class="list-disc list-inside grid md:grid-cols-2 gap-x-4">
-            {roles.map((role) => (
-              <li>{role}</li>
+      // Normaliser le champ processus en tableau de lignes
+      (Array.isArray(projet.processus)
+        ? projet.processus
+        : projet.processus
+          ? String(projet.processus).split(/\r?\n/).filter(Boolean)
+          : []
+      ).length > 0 && (
+        <section class="mt-15">
+          <h2 class="mb-4">Processus</h2>
+          <ol class="list-decimal list-inside space-y-2 text-sm lg:text-2xl ml-8">
+            {(Array.isArray(projet.processus)
+              ? projet.processus
+              : projet.processus
+                ? String(projet.processus).split(/\r?\n/).filter(Boolean)
+                : []
+            ).map((p) => (
+              <li>{p}</li>
             ))}
-          </ul>
+          </ol>
         </section>
       )
     }
 
     <!-- Résultats -->
     {
-      resultatImages.length > 0 && (
-        <section>
-          <h2 class="text-3xl font-semibold mb-3">Résultats finaux</h2>
-          <div class="grid md:grid-cols-2 gap-6">
-            {resultatImages.map((file) => {
-              // détecter les vidéos
-              const isVideo = file.endsWith(".mp4") || file.endsWith(".webm");
-              return isVideo ? (
-                <video
-                  controls
-                  class="rounded-lg shadow-md"
-                  style="aspect-ratio:16/9; width:100%; height:auto;"
-                >
-                  <source
-                    src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
-                  />
-                </video>
-              ) : (
-                <img
-                  src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
-                  alt="Résultat"
-                  class="rounded-lg shadow-md"
-                  style="aspect-ratio:4/3; width:100%; height:auto; object-fit:cover;"
-                  loading="lazy"
+      (resultatImages.length > 0 ||
+        (Array.isArray(projet.resultatTextes)
+          ? projet.resultatTextes
+          : projet.resultatTextes
+            ? String(projet.resultatTextes).split(/\r?\n/).filter(Boolean)
+            : []
+        ).length > 0) && (
+        <section class="mt-15">
+          <h2 class="mb-4 bg-base-100">Résultats finaux</h2>
+
+          <div class="grid gap-6">
+            {
+              // Texte des résultats (si présent) — préserver les sauts de ligne
+              (Array.isArray(projet.resultatTextes)
+                ? projet.resultatTextes
+                : projet.resultatTextes
+                  ? String(projet.resultatTextes)
+                  : ""
+              ).trim() && (
+                <p
+                  class="prose max-w-none"
+                  set:html={String(
+                    Array.isArray(projet.resultatTextes)
+                      ? projet.resultatTextes.join("\n")
+                      : projet.resultatTextes
+                  )
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#39;")
+                    .replace(/\r\n|\r|\n/g, "<br/>")}
                 />
-              );
-            })}
+              )
+            }
+
+            {
+              // Images / vidéos des résultats
+              resultatImages.length > 0 && (
+                <div class="flex flex-col gap-4">
+                  {resultatImages.map((file) => {
+                    const isVideo =
+                      file.endsWith(".mp4") || file.endsWith(".webm");
+                    return isVideo ? (
+                      <video
+                        controls
+                        class="shadow-md rounded-2xl"
+                        style="aspect-ratio:16/9; width:75%; height:auto; object-fit:cover;"
+                      >
+                        <source
+                          src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                        />
+                      </video>
+                    ) : (
+                      <img
+                        src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                        alt="Résultat"
+                        class="rounded-lg shadow-md"
+                        style="aspect-ratio:4/3; width:100%; height:auto; object-fit:cover;"
+                        loading="lazy"
+                      />
+                    );
+                  })}
+                </div>
+              )
+            }
           </div>
         </section>
       )
     }
 
-    <!-- Bilan / Valeur ajoutée -->
     {
       projet.bilan && (
-        <section>
-          <h2 class="text-3xl font-semibold mb-3">Bilan et valeur ajoutée</h2>
-          <div class="prose max-w-none" set:html={projet.bilan} />
+        <section class="mt-15 bg-base-100">
+          <h2 class="mb-4">Bilan et valeur ajoutée</h2>
+
+          {/* Liste des intros */}
+          {Array.isArray(projet.bilan.intro) && (
+            <ul class="list-disc list-inside space-y-2 text-sm lg:text-2xl ml-8">
+              {projet.bilan.intro.map((texte) => (
+                <li>{texte}</li>
+              ))}
+            </ul>
+          )}
+
+          {/* Sections avec sous-puces */}
+          {Array.isArray(projet.bilan.sections) &&
+            projet.bilan.sections.map((section) => (
+              <div class="mt-4">
+                <h3 class="mb-2 ml-8">{section.title}</h3>
+                <ul class="list-disc list-inside ml-16 space-y-1 text-sm lg:text-2xl">
+                  {section.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
         </section>
       )
     }
@@ -163,11 +265,13 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
     <!-- Outils utilisés -->
     {
       outils.length > 0 && (
-        <section>
-          <h2 class="text-3xl font-semibold mb-3">Outils utilisés</h2>
+        <section class="mt-15 bg-base-100">
+          <h2 class="mb-4">Outils utilisés</h2>
           <ul class="flex flex-wrap gap-3">
             {outils.map((outil) => (
-              <li class="badge badge-secondary badge-lg">{outil}</li>
+              <li class="inline-flex bg-linear-to-b from-secondary to-primary font-medium py-1 items-center px-4 rounded-4xl">
+                {outil}
+              </li>
             ))}
           </ul>
         </section>
