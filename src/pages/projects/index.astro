@@ -4,6 +4,8 @@ import Layout from "../../layouts/Layout.astro";
 import pb from "../../../pocketbase/pb";
 
 const projets = await pb.collection("Projets").getFullList();
+
+const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
 ---
 
 <Layout
@@ -12,21 +14,141 @@ const projets = await pb.collection("Projets").getFullList();
   imgTitre="/nom_page/Projets.svg"
   altImgTitre="Projets"
 >
-  <p class="text-xs">Liste des projets :</p>
+  <main class="px-5 lg:px-25">
+    <div class="mt-8 mb-12">
+      <style>
+        /* style visuel pour l'état actif (le script ajoute/retire btn-primary) */
+        #projects-filters .btn-primary {
+          background-image: linear-gradient(
+            to bottom,
+            #520036,
+            #42004f
+          ) !important;
+        }
+      </style>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-    {
-      projets.map((project) => (
-        <a
-          href={`/projects/${project.id}`}
-          class="card bg-base-200 hover:shadow-xl transition-shadow duration-300"
+      <div id="projects-filters" class="flex gap-3 justify-center">
+        <button
+          type="button"
+          data-filter="all"
+          aria-pressed="true"
+          class="filter-btn btn inline-flex w-max bg-linear-to-b from-secondary to-primary hover:from-info hover:to-success font-medium py-1 lg:py-2 items-center px-4 lg:px-5 rounded-4xl text-lg lg:text-2xl"
+          >Tous</button
         >
-          <div class="card-body">
-            <h2 class="card-title">{project.titre}</h2>
-            <p>{project.description}</p>
-          </div>
-        </a>
-      ))
-    }
-  </div>
+        <button
+          type="button"
+          data-filter="Educatif"
+          aria-pressed="false"
+          class="filter-btn btn inline-flex w-max bg-linear-to-b from-secondary to-primary hover:from-info hover:to-success font-medium py-1 lg:py-2 items-center px-4 lg:px-5 rounded-4xl text-lg lg:text-2xl"
+          >Educatifs</button
+        >
+        <button
+          type="button"
+          data-filter="Personnel"
+          aria-pressed="false"
+          class="filter-btn btn inline-flex w-max bg-linear-to-b from-secondary to-primary hover:from-info hover:to-success font-medium py-1 lg:py-2 items-center px-4 lg:px-5 rounded-4xl text-lg lg:text-2xl"
+          >Personnels</button
+        >
+      </div>
+    </div>
+
+    <div
+      id="projects-grid"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8"
+    >
+      {
+        projets.map((project) => (
+          <a
+            href={`/projects/${project.id}`}
+            data-categorie-filtre={project.categorie_filtre ?? ""}
+          >
+            <div
+              class="project-card relative rounded-2xl overflow-hidden group"
+              data-categorie-filtre={project.categorie_filtre ?? ""}
+            >
+              <img
+              src={`${PB_BASE_URL}/api/files/${project.collectionId}/${project.id}/${project.imageCouverture}`}
+              alt={`visuel principal ${project.titre}`}
+              class="w-full object-cover"
+              loading="eager"
+              />
+
+              <div
+              class="absolute inset-0 group-hover:bg-black/75 pointer-events-none"
+              aria-hidden="true"
+              ></div>
+
+              <!-- badges en haut à droite (affichés seulement au survol) -->
+              <div class="absolute top-3 right-3 flex flex-col gap-2 items-end z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+              {project.roleBadge1 ? (
+                <span class="text-sm bg-linear-to-br from-primary to-accent px-2 py-1 rounded-full">
+                {project.roleBadge1}
+                </span>
+              ) : null}
+              {project.roleBadge2 ? (
+                <span class="text-sm bg-linear-to-br from-primary to-accent px-2 py-1 rounded-full">
+                {project.roleBadge2}
+                </span>
+              ) : null}
+              </div>
+
+              <!-- catégorie et titre en bas à gauche (affichés seulement au survol) -->
+              <div class="absolute left-3 bottom-3 z-10 text-white opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+              <div class="text-sm font-medium bg-black bg-opacity-50 px-2 py-1 rounded">
+                {project.categorie_filtre ?? project.categorie ?? ""}
+              </div>
+              <div class="text-lg lg:text-xl font-bold mt-1">
+                {project.titre}
+              </div>
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    <script>
+      (function () {
+        const grid = document.getElementById("projects-grid");
+        const filterContainer = document.getElementById("projects-filters");
+        if (!grid || !filterContainer) return;
+
+        const buttons = Array.from(
+          filterContainer.querySelectorAll(".filter-btn")
+        );
+        const cards = Array.from(grid.querySelectorAll(".project-card"));
+
+        function applyFilter(value) {
+          cards.forEach((card) => {
+            const cat = (card.dataset.categorieFiltre || "").toString();
+            const match = value === "all" || (cat && cat.includes(value));
+            card.style.display = match ? "" : "none";
+          });
+        }
+
+        filterContainer.addEventListener("click", (e) => {
+          const btn = e.target.closest && e.target.closest(".filter-btn");
+          if (!btn) return;
+          const value = btn.dataset.filter;
+
+          // update aria-pressed and active state
+          buttons.forEach((b) => {
+            const pressed = b === btn;
+            b.setAttribute("aria-pressed", pressed ? "true" : "false");
+            if (pressed) b.classList.add("btn-primary");
+            else b.classList.remove("btn-primary");
+          });
+
+          applyFilter(value);
+        });
+
+        // init (show all)
+        applyFilter("all");
+        // set default active style
+        buttons.forEach((b) => {
+          if (b.dataset.filter === "all") b.classList.add("btn-primary");
+        });
+      })();
+    </script>
+  </main>
 </Layout>
