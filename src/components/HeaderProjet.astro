@@ -47,19 +47,20 @@ const { item } = Astro.props;
         id="close-menu"
         width="96"
         height="96"
-        class="cursor-pointer mr-8 mt-9"
+        class="cursor-pointer lg:mr-11 lg:mt-9 mr-6 mt-6 lg:w-24 lg:h-24 w-11 h-11"
       />
     </div>
 
     <!-- Liens du menu -->
-    <ul class="flex flex-col items-start mt-25">
+    <ul class="flex flex-col items-start lg:mt-15">
       <li>
         <a href="/projects" aria-label="Projets">
           <img
             src="/nom_page/Projets.svg"
             alt="Projets"
-            width="817"
-            height="350"
+            width="700"
+            height="300"
+            class="w-170 h-70"
           />
         </a>
       </li>
@@ -69,9 +70,9 @@ const { item } = Astro.props;
           <img
             src="/nom_page/A_propos.svg"
             alt="À propos"
-            width="817"
-            height="350"
-            class="-mt-20"
+            width="700"
+            height="300"
+            class="-mt-30 lg:-mt-20 w-170 h-70"
           />
         </a>
       </li>
@@ -80,9 +81,9 @@ const { item } = Astro.props;
           <img
             src="/nom_page/Contact.svg"
             alt="Contact"
-            width="817"
-            height="350"
-            class="-mt-20"
+            width="700"
+            height="300"
+            class="-mt-30 lg:-mt-20 w-170 h-70"
           />
         </a>
       </li>
