@@ -15,7 +15,7 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
   altImgTitre="Projets"
 >
   <main class="px-5 lg:px-25">
-    <div class="mt-8 mb-12">
+    <div class="mt-2 lg:mt-8 mb-5 lg:mb-12">
       <style>
         /* style visuel pour l'état actif (le script ajoute/retire btn-primary) */
         #projects-filters .btn-primary {
@@ -61,45 +61,48 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
           <a
             href={`/projects/${project.id}`}
             data-categorie-filtre={project.categorie_filtre ?? ""}
+            class="project-item block h-full"
           >
-            <div
-              class="project-card relative rounded-2xl overflow-hidden group"
-              data-categorie-filtre={project.categorie_filtre ?? ""}
-            >
+            <div class="project-card relative rounded-2xl overflow-hidden group lg:h-75 w-auto">
               <img
-              src={`${PB_BASE_URL}/api/files/${project.collectionId}/${project.id}/${project.imageCouverture}`}
-              alt={`visuel principal ${project.titre}`}
-              class="w-full object-cover"
-              loading="eager"
+                src={`${PB_BASE_URL}/api/files/${project.collectionId}/${project.id}/${project.imageCouverture}`}
+                alt={`visuel principal ${project.titre}`}
+                class="w-full h-full object-cover"
+                loading="eager"
               />
 
               <div
-              class="absolute inset-0 group-hover:bg-black/75 pointer-events-none"
-              aria-hidden="true"
-              ></div>
+                class="absolute inset-0 group-hover:bg-black/75 pointer-events-none"
+                aria-hidden="true"
+              />
 
-              <!-- badges en haut à droite (affichés seulement au survol) -->
               <div class="absolute top-3 right-3 flex flex-col gap-2 items-end z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-              {project.roleBadge1 ? (
-                <span class="text-sm bg-linear-to-br from-primary to-accent px-2 py-1 rounded-full">
-                {project.roleBadge1}
-                </span>
-              ) : null}
-              {project.roleBadge2 ? (
-                <span class="text-sm bg-linear-to-br from-primary to-accent px-2 py-1 rounded-full">
-                {project.roleBadge2}
-                </span>
-              ) : null}
+                {project.roleBadge1 ? (
+                  <span class="text-xs lg:text-sm bg-linear-to-br from-primary to-accent px-3 py-1 rounded-full">
+                    {project.roleBadge1}
+                  </span>
+                ) : null}
+                {project.roleBadge2 ? (
+                  <span class="text-xs lg:text-sm bg-linear-to-br from-primary to-accent px-3 py-1 rounded-full">
+                    {project.roleBadge2}
+                  </span>
+                ) : null}
               </div>
 
-              <!-- catégorie et titre en bas à gauche (affichés seulement au survol) -->
-              <div class="absolute left-3 bottom-3 z-10 text-white opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-              <div class="text-sm font-medium bg-black bg-opacity-50 px-2 py-1 rounded">
-                {project.categorie_filtre ?? project.categorie ?? ""}
-              </div>
-              <div class="text-lg lg:text-xl font-bold mt-1">
-                {project.titre}
-              </div>
+              <div class="grid grid-cols-2">
+                <div class="absolute left-3 bottom-3 z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                  {project.categorie ? (
+                    <span class="inline-block text-xs lg:text-sm bg-linear-to-br from-primary to-accent px-3 py-1 rounded-full">
+                      {project.categorie}
+                    </span>
+                  ) : null}
+                  <div class="text-sm lg:text-base font-medium mt-2 group-hover:bg-black/50 group-hover:px-2 group-hover:py-1 group-hover:rounded-lg">
+                    {project.titre}
+                  </div>
+                </div>
+                <div class="absolute right-3 bottom-3 z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 text-sm lg:text-sm group-hover:bg-black/50 group-hover:px-2 group-hover:py-1 group-hover:rounded-lg">
+                  {project.annee}
+                </div>
               </div>
             </div>
           </a>
@@ -116,7 +119,7 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
         const buttons = Array.from(
           filterContainer.querySelectorAll(".filter-btn")
         );
-        const cards = Array.from(grid.querySelectorAll(".project-card"));
+        const cards = Array.from(grid.querySelectorAll(".project-item"));
 
         function applyFilter(value) {
           cards.forEach((card) => {
