@@ -1,0 +1,133 @@
+---
+const { item } = Astro.props;
+---
+
+<header class="relative flex items-center justify-between lg:m-0 mb-2 lg:mb-0">
+  <!-- Logo à gauche -->
+  <a href="/" aria-label="Accueil">
+    <img
+      src="/icons/logoBlanc.png"
+      alt="Logo"
+      class="w-24 h-24 md:w-32 md:h-32 lg:w-44 lg:h-44"
+    />
+  </a>
+  
+  <!-- Bouton menu à droite -->
+  <div class="absolute right-0">
+    <button
+      id="menu-btn"
+      class="focus:outline-none mr-5"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+    >
+      <img
+        src="/icons/menu.svg"
+        alt="Menu"
+        class="cursor-pointer
+        w-16
+        h-16
+        md:w-24
+        md:h-24
+        lg:w-32
+        lg:h-32"
+      />
+    </button>
+  </div>
+
+  <!-- Menu latéral -->
+  <nav
+    id="menu-panel"
+    class="fixed top-0 right-0 h-full w-190 max-w-full bg-base-200 transform translate-x-full transition-transform duration-500 ease-in-out shadow-xl z-40"
+    aria-hidden="true"
+  >
+    <div class="absolute right-0">
+      <img
+        src="/icons/croix.svg"
+        alt="Fermer le menu"
+        id="close-menu"
+        width="96"
+        height="96"
+        class="cursor-pointer lg:mr-11 lg:mt-9 mr-6 mt-6 lg:w-24 lg:h-24 w-11 h-11"
+      />
+    </div>
+
+    <!-- Liens du menu -->
+    <ul class="flex flex-col items-start lg:mt-15">
+      <li>
+        <a href="/projects" aria-label="Projets">
+          <img
+            src="/nom_page/Projets.svg"
+            alt="Projets"
+            width="700"
+            height="300"
+            class="w-170 h-70"
+          />
+        </a>
+      </li>
+
+      <li>
+        <a href="/about" aria-label="À propos">
+          <img
+            src="/nom_page/A_propos.svg"
+            alt="À propos"
+            width="700"
+            height="300"
+            class="-mt-30 lg:-mt-20 w-170 h-70"
+          />
+        </a>
+      </li>
+      <li>
+        <a href="/contact" aria-label="Contact">
+          <img
+            src="/nom_page/Contact.svg"
+            alt="Contact"
+            width="700"
+            height="300"
+            class="-mt-30 lg:-mt-20 w-170 h-70"
+          />
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const menuBtn = document.getElementById("menu-btn");
+  const closeMenu = document.getElementById("close-menu");
+  const menuPanel = document.getElementById("menu-panel");
+
+  function openMenu() {
+    menuPanel.classList.remove("translate-x-full");
+    menuPanel.setAttribute("aria-hidden", "false");
+    menuBtn.setAttribute("aria-expanded", "true");
+    document.body.classList.add("overflow-hidden"); // empêche le scroll
+  }
+
+  function closeMenuPanel() {
+    menuPanel.classList.add("translate-x-full");
+    menuPanel.setAttribute("aria-hidden", "true");
+    menuBtn.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("overflow-hidden");
+  }
+
+  // Ferme le menu quand on clique n'importe où sur la page,
+  // sauf si le clic est sur le bouton du menu ou à l'intérieur du panneau.
+  function onDocumentClick(e) {
+    if (!menuPanel || !menuBtn) return;
+    const isOpen = !menuPanel.classList.contains("translate-x-full");
+    if (!isOpen) return;
+
+    const target = e.target;
+    if (menuPanel.contains(target) || menuBtn.contains(target)) {
+      return; // clic à l'intérieur du panneau ou sur le bouton -> ne pas fermer
+    }
+
+    closeMenuPanel();
+  }
+
+  if (menuBtn && closeMenu && menuPanel) {
+    menuBtn.addEventListener("click", openMenu);
+    closeMenu.addEventListener("click", closeMenuPanel);
+    document.addEventListener("click", onDocumentClick);
+  }
+</script>

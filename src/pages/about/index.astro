@@ -1,9 +1,5 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import pb from "../../../pocketbase/pb";
-
-const projets = await pb.collection("Projets").getFullList();
-const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
 ---
 
 <Layout
