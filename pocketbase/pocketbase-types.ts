@@ -6,6 +6,7 @@ import type PocketBase from 'pocketbase'
 import type { RecordService } from 'pocketbase'
 
 export enum Collections {
+	ContactMessage = "ContactMessage",
 	Projets = "Projets",
 	Authorigins = "_authOrigins",
 	Externalauths = "_externalAuths",
@@ -42,10 +43,26 @@ export type AuthSystemFields<T = unknown> = {
 
 // Record types for each collection
 
+export type ContactMessageRecord = {
+	budget?: number
+	created?: IsoDateString
+	deadline?: IsoDateString
+	email?: string
+	fichiers?: string[]
+	id: string
+	message?: HTMLString
+	nom?: string
+	prenom?: string
+	projet?: string
+	telephone?: string
+	updated?: IsoDateString
+}
+
 export type ProjetsRecord<Tbilan = unknown, Toutils = unknown, Tprocessus = unknown, Trole = unknown> = {
 	annee?: number
 	bilan?: null | Tbilan
 	categorie?: string
+	categorie_filtre?: string
 	contexte?: string
 	created?: IsoDateString
 	id: string
@@ -125,6 +142,7 @@ export type UsersRecord = {
 }
 
 // Response types include system fields and match responses from the PocketBase API
+export type ContactMessageResponse<Texpand = unknown> = Required<ContactMessageRecord> & BaseSystemFields<Texpand>
 export type ProjetsResponse<Tbilan = unknown, Toutils = unknown, Tprocessus = unknown, Trole = unknown, Texpand = unknown> = Required<ProjetsRecord<Tbilan, Toutils, Tprocessus, Trole>> & BaseSystemFields<Texpand>
 export type AuthoriginsResponse<Texpand = unknown> = Required<AuthoriginsRecord> & BaseSystemFields<Texpand>
 export type ExternalauthsResponse<Texpand = unknown> = Required<ExternalauthsRecord> & BaseSystemFields<Texpand>
@@ -136,6 +154,7 @@ export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSyste
 // Types containing all Records and Responses, useful for creating typing helper functions
 
 export type CollectionRecords = {
+	ContactMessage: ContactMessageRecord
 	Projets: ProjetsRecord
 	_authOrigins: AuthoriginsRecord
 	_externalAuths: ExternalauthsRecord
@@ -146,6 +165,7 @@ export type CollectionRecords = {
 }
 
 export type CollectionResponses = {
+	ContactMessage: ContactMessageResponse
 	Projets: ProjetsResponse
 	_authOrigins: AuthoriginsResponse
 	_externalAuths: ExternalauthsResponse
@@ -159,6 +179,7 @@ export type CollectionResponses = {
 // https://github.com/pocketbase/js-sdk#specify-typescript-definitions
 
 export type TypedPocketBase = PocketBase & {
+	collection(idOrName: 'ContactMessage'): RecordService<ContactMessageResponse>
 	collection(idOrName: 'Projets'): RecordService<ProjetsResponse>
 	collection(idOrName: '_authOrigins'): RecordService<AuthoriginsResponse>
 	collection(idOrName: '_externalAuths'): RecordService<ExternalauthsResponse>

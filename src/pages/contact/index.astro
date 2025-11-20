@@ -1,0 +1,105 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout
+  titre="Contact"
+  description="Page de contact"
+  imgTitre="/nom_page/Contact.svg"
+  altImgTitre="Contact"
+>  <main class="px-5 lg:px-20 py-10">
+    <h2 class="mb-6 text-center">Un Projet ?</h2>
+
+    <div id="status" class="mb-4"></div>
+
+    <form id="contact-form" action="/api/contact" method="post" enctype="multipart/form-data" class="space-y-6 bg-base-200 p-6 rounded shadow-md">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <label class="mb-2">
+          Votre projet ?
+          <input type="text" name="projet" required class="input input-bordered w-full" />
+        </label>
+        <label class="mb-2">
+          Deadline ?
+          <input type="date" name="deadline" class="input input-bordered w-full" />
+        </label>
+        <label class="mb-2">
+          Un Budget ?
+          <input type="number" name="budget" class="input input-bordered w-full" />
+        </label>
+      </div>
+
+      <h3>Vos informations</h3>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <label>
+          Nom
+          <input type="text" name="nom" required class="input input-bordered w-full" />
+        </label>
+        <label>
+          Prénom
+          <input type="text" name="prenom" required class="input input-bordered w-full" />
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" required class="input input-bordered w-full" />
+        </label>
+        <label>
+          Téléphone
+          <input type="text" name="telephone" class="input input-bordered w-full" />
+        </label>
+      </div>
+
+      <label>
+        Message
+        <textarea name="message" required class="textarea textarea-bordered w-full"></textarea>
+      </label>
+
+      <label class="block mt-4">
+        Joindre des fichiers
+        <input type="file" name="fichiers" multiple class="file-input file-input-bordered w-full" />
+      </label>
+
+      <button type="submit" class="btn btn-primary mt-4">Envoyer</button>
+    </form>
+
+    <div class="mt-20">
+      <h2 class="mb-6 text-center">Ou contactez-moi à</h2>
+      <div class="space-y-4 text-center">
+        <p>Email : <a href="mailto:lacroixeva32@gmail.com" class="link">lacroixeva32@gmail.com</a></p>
+      </div>
+    </div>
+
+    <div class="mt-20">
+      <h2 class="mb-6 text-center">Vous cherchez mon CV ?</h2>
+      <div class="text-center flex justify-center gap-4">
+        <a href="/CV/CV_LACROIX_Eva.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-accent" aria-label="Visualiser le CV">Visualiser le CV</a>
+        <a href="/CV/CV_LACROIX_Eva.pdf" download="CV_LACROIX_Eva.pdf" class="btn btn-secondary" aria-label="Télécharger le CV (PDF)">Télécharger le CV (PDF)</a>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script type="module">
+  // Simulation client-side : intercepte le submit et affiche un message de succès (fake)
+  const form = document.getElementById('contact-form');
+  const statusEl = document.getElementById('status');
+
+  if (form && statusEl) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]');
+
+      // Affiche état d'envoi
+      statusEl.innerHTML = '<p class="text-neutral">Envoi en cours…</p>';
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.classList.add('loading'); }
+
+      // Simule un délai réseau
+      await new Promise((r) => setTimeout(r, 800));
+
+      // Message de succès simulé
+      statusEl.innerHTML = '<p class="text-green-600 mb-4">Votre message a bien été envoyé ! Merci pour votre confiance.</p>';
+      form.reset();
+
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.classList.remove('loading'); }
+    });
+  }
+</script>
