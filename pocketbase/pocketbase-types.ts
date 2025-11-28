@@ -64,6 +64,7 @@ export type ProjetsRecord<Tbilan = unknown, Toutils = unknown, Tprocessus = unkn
 	categorie?: string
 	categorie_filtre?: string
 	contexte?: string
+	courteDescription?: string
 	created?: IsoDateString
 	id: string
 	imageContexte?: string

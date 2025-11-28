@@ -1,17 +1,20 @@
 ---
-import LayoutMinimal from "../../layouts/LayoutMinimal.astro";
+import Layout from "../../layouts/Layout.astro";
 ---
 
-<LayoutMinimal titrePage="Mentions légales">
+<Layout
+  nomPage="Mentions Légales"
+  description="Informations légales concernant mon portfolio et son hébergement."
+>
   <main class="max-w-4xl mx-auto px-6 space-y-8">
-    <h1>Mentions légales</h1>
-
     <section class="card bg-base-200 p-6 rounded-2xl">
       <h2 class="mb-2">Éditeur du site</h2>
       <p class="leading-relaxed">
         Site édité par : <strong>Eva Lacroix</strong>
         <br />Adresse : 25200 Montbéliard
-        <br />E‑mail : <a href="mailto:lacroixeva32@gmail.com" class="link">lacroixeva32@gmail.com</a>
+        <br />E‑mail : <a href="mailto:lacroixeva32@gmail.com" class="link"
+          >lacroixeva32@gmail.com</a
+        >
       </p>
     </section>
 
@@ -34,15 +37,26 @@ import LayoutMinimal from "../../layouts/LayoutMinimal.astro";
     <section class="card bg-base-200 p-6 rounded-2xl">
       <h2 class="mb-2">Propriété intellectuelle</h2>
       <p class="leading-relaxed">
-        L'ensemble du contenu présent sur ce site (textes, images, logos, vidéos) est protégé par le droit de la propriété intellectuelle et est la propriété exclusive de l'éditeur, sauf mention contraire. Toute reproduction ou représentation, intégrale ou partielle, est strictement interdite sans autorisation.
+        L'ensemble du contenu présent sur ce site (textes, images, logos,
+        vidéos) est protégé par le droit de la propriété intellectuelle et est
+        la propriété exclusive de l'éditeur, sauf mention contraire. Toute
+        reproduction ou représentation, intégrale ou partielle, est strictement
+        interdite sans autorisation.
       </p>
     </section>
 
     <section class="card bg-base-200 p-6 rounded-2xl">
       <h2 class="mb-2">Données personnelles</h2>
       <p class="leading-relaxed">
-        Les données collectées via le formulaire du site sont uniquement utilisées pour répondre aux demandes des visiteurs. Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant.
-        <br />Pour exercer ces droits, envoyez une demande à : <a href="mailto:lacroixeva32@gmail.com" class="link">lacroixeva32@gmail.com</a>
+        Les données collectées via le formulaire du site sont uniquement
+        utilisées pour répondre aux demandes des visiteurs. Conformément au
+        Règlement Général sur la Protection des Données (RGPD), vous disposez
+        d'un droit d'accès, de rectification et de suppression des données vous
+        concernant.
+        <br />Pour exercer ces droits, envoyez une demande à : <a
+          href="mailto:lacroixeva32@gmail.com"
+          class="link">lacroixeva32@gmail.com</a
+        >
       </p>
     </section>
 
@@ -56,10 +70,15 @@ import LayoutMinimal from "../../layouts/LayoutMinimal.astro";
     <section class="card bg-base-200 p-6 rounded-2xl">
       <h2 class="mb-2">Responsabilité</h2>
       <p class="leading-relaxed">
-        L'éditeur met en œuvre tous les moyens raisonnables pour assurer l'exactitude des informations présentes sur le site. Toutefois, il ne saurait garantir l'exactitude, la précision ou l'exhaustivité des informations mises à disposition sur le site.
+        L'éditeur met en œuvre tous les moyens raisonnables pour assurer
+        l'exactitude des informations présentes sur le site. Toutefois, il ne
+        saurait garantir l'exactitude, la précision ou l'exhaustivité des
+        informations mises à disposition sur le site.
       </p>
     </section>
 
-    <p class="text-neutral text-center">Dernière mise à jour : {new Date().getFullYear()}.</p>
+    <p class="text-neutral text-center">
+      Dernière mise à jour : {new Date().getFullYear()}.
+    </p>
   </main>
-</LayoutMinimal>
+</Layout>

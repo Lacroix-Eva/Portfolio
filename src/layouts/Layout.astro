@@ -16,7 +16,7 @@ const { ...item } = Astro.props;
       name="description"
       content={"Portfolio d'Eva Lacroix || " + item.description}
     />
-    <title>Eva Lacroix - {item.titre}</title>
+    <title>Eva Lacroix - {item.nomPage}</title>
   </head>
 
   <body
@@ -28,7 +28,7 @@ const { ...item } = Astro.props;
       aria-hidden="true"
     >
     </div>
-    <Header item={{ img: item.imgTitre, altImg: item.altImgTitre }} />
+    <Header item={{ nomPage: item.nomPage }} />
     <slot />
     <Footer />
   </body>

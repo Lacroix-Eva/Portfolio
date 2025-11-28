@@ -1,5 +1,6 @@
 ---
-import LayoutProjet from "../../layouts/LayoutProjet.astro";
+// import LayoutProjet from "../../layouts/LayoutProjet.astro";
+import Layout from "../../layouts/Layout.astro";
 import pb from "../../../pocketbase/pb";
 import {
   Collections,
@@ -43,11 +44,12 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
 // si tu as configuré Apache pour que /api/ pointe vers PocketBase
 ---
 
-<LayoutProjet>
+<!-- <LayoutProjet>
   <h1 class="inset-x-0 flex justify-center mx-4 lg:mx-10 bg-base-100">
     {projet.titre}
-  </h1>
+  </h1> -->
 
+<Layout nomPage={projet.titre} description={projet.courteDescription}>
   <main class="pt-6 px-5 lg:px-25">
     <div
       class="flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-3 mb-6 lg:mb-10"

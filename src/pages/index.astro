@@ -2,25 +2,41 @@
 import LayoutMinimal from "../layouts/LayoutMinimal.astro";
 ---
 
-<LayoutMinimal titrePage="Accueil">
+<LayoutMinimal titrePage="Accueil" description="Bienvenue sur mon portfolio, créatrice d'expériences digitales claires, utiles et mémorables.">
   <main class="relative overflow-hidden">
     <section class="container mx-auto px-6">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-10 lg:mb-20">
+      <div
+        class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-10 lg:mb-20"
+      >
         <div class="flex items-center justify-center">
           <div class="w-full max-w-md rounded-3xl p-6">
-            <img src="/icons/avatar.svg" alt="Illustration" class="w-full h-auto" />
+            <img
+              src="/icons/avatar.svg"
+              alt="Illustration"
+              class="w-full h-auto"
+            />
           </div>
         </div>
 
-        <div class="space-y-6">
-          <h1 class="text-accent">Bonjour, moi c'est Eva Lacroix</h1>
-          <h2 class="leading-tight">Créatrice d'expériences digitales
-            <strong>claires</strong>, <strong>utiles</strong> et <strong>mémorables</strong>.</h2>
+        <div class="space-y-6 mt-12">
+          <h1 class="neon neon-pulse">Bonjour, moi c'est Eva Lacroix</h1>
+          <h2 class="leading-tight">
+            Créatrice d'expériences digitales
+            <strong>claires</strong>, <strong>utiles</strong> et <strong
+              >mémorables</strong
+            >.
+          </h2>
 
-          <p class="text-base text-muted max-w-xl">Je conçois des sites web et des interfaces web performantes et esthétiques. J'aide les petites entreprises et projets personnels à se présenter avec clarté sur le web.</p>
+          <p class="text-base text-muted max-w-xl">
+            Je conçois des sites web et des interfaces web performantes et
+            esthétiques. J'aide les petites entreprises et projets personnels à
+            se présenter avec clarté sur le web.
+          </p>
 
           <div class="flex flex-wrap gap-3 mt-4">
-            <a href="/projects" class="btn btn-primary btn-lg">Voir mes projets</a>
+            <a href="/projects" class="btn btn-primary btn-lg"
+              >Voir mes projets</a
+            >
             <a href="/contact" class="btn btn-accent btn-lg">Contactez-moi</a>
             <a href="/about" class="btn btn-info btn-lg">En savoir plus</a>
           </div>
@@ -32,7 +48,7 @@ import LayoutMinimal from "../layouts/LayoutMinimal.astro";
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         <div>
           <h2 class="mb-4">Travaillons ensemble</h2>
-          <p class="text-muted mb-4">Vous avez un projet ? Parlons-en. </p>
+          <p class="text-muted mb-4">Vous avez un projet ? Parlons-en.</p>
           <a href="/contact" class="btn btn-lg btn-primary">Contactez-moi</a>
         </div>
         <div>

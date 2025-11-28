@@ -8,12 +8,7 @@ const projets = await pb.collection("Projets").getFullList();
 const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
 ---
 
-<Layout
-  titre="Projets"
-  description="Page listant tous mes projets"
-  imgTitre="/nom_page/Projets.svg"
-  altImgTitre="Projets"
->
+<Layout nomPage="Projets" description="Découvrez mes projets de création de sites web et d'interfaces digitales.">
   <main class="px-5 lg:px-25">
     <div class="mt-2 lg:mt-8 mb-5 lg:mb-12">
       <style>
