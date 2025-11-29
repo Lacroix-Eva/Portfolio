@@ -10,7 +10,10 @@ export default defineConfig({
   output: 'server',
 
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    ssr: {
+      external: ['nodemailer'],
+    },
   },
 
   adapter: node({

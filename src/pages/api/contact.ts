@@ -26,8 +26,8 @@ export const POST: APIRoute = async ({ request }) => {
       to: "lacroixeva32@gmail.com",
       subject: "📩 Nouveau message depuis ton portfolio",
       html: `
-        <h2>${type}</h2>
-        ${autre ? `<p><strong>Autre :</strong> ${autre}</p>` : ""}
+      <h2>${type}</h2>${autre ? `<p><strong>Autre :</strong> ${autre}</p>` : ""}
+
         <p><strong>Nom :</strong> ${nom}</p>
         <p><strong>Entreprise :</strong> ${entreprise}</p>
         <p><strong>Email :</strong> ${email}</p>
