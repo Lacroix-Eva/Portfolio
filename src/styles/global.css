@@ -151,7 +151,7 @@
     }
 
     p {
-        @apply text-lg lg:text-2xl;
+        @apply text-base lg:text-xl;
     }
 }
 
