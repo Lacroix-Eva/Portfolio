@@ -11,12 +11,32 @@ import Layout from "../../layouts/Layout.astro";
 
     <p class="text-center mb-10 opacity-80 bg-base-100">
       Je suis étudiante en BUT MMI et je recherche une opportunité de
-      <strong>stage</strong> ou d’<strong>alternance</strong> pour développer mes
-      compétences en design, web et communication. N'hésitez pas à me contacter via
-      ce formulaire.
+      <strong>stage</strong> pour développer mes compétences en design, web et communication.
+      N'hésitez pas à me contacter via ce formulaire.
     </p>
 
-    <form
+    <!-- Bloc maintenance -->
+    <div
+      class="mx-auto max-w-3xl lg:max-w-4xl w-full p-12 rounded-3xl shadow-2xl
+         bg-white/5 backdrop-blur-xl border border-white/10 text-center"
+    >
+      <div class="mb-4">
+        <span
+          class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-accent/20 text-accent mx-auto mb-3 text-4xl"
+          aria-hidden="true"
+        >
+          🛠️
+        </span>
+      </div>
+
+      <h3 class="mb-2">Formulaire temporairement indisponible</h3>
+      <p class="text-white/70 mb-4">
+        Je travaille actuellement à améliorer le formulaire. <br />
+        Merci de votre patience !
+      </p>
+    </div>
+
+    <!-- <form
       id="contact-form"
       action="/api/contact"
       method="post"
@@ -24,7 +44,6 @@ import Layout from "../../layouts/Layout.astro";
       class="mx-auto max-w-3xl lg:max-w-4xl w-full space-y-10 p-8 md:p-12 rounded-3xl shadow-2xl
          bg-white/5 backdrop-blur-xl border border-white/10 transition-all"
     >
-      <!-- Type d'opportunité -->
       <fieldset class="space-y-4">
         <legend class="text-xl font-semibold md:text-2xl lg:text-3xl mb-4">
           Type d'opportunité
@@ -44,7 +63,6 @@ import Layout from "../../layouts/Layout.astro";
             <option value="autre" class="text-black">Autre proposition</option>
           </select>
 
-          <!-- Label flottant -->
           <label
             class="absolute left-4 top-1 text-base text-white/70 pointer-events-none transition-all mt-1
              peer-focus:text-primary peer-focus:text-sm peer-focus:top-1.5
@@ -53,7 +71,6 @@ import Layout from "../../layouts/Layout.astro";
             Sélection
           </label>
 
-          <!-- Flèche custom -->
           <svg
             class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70
                    peer-focus:text-primary transition-colors"
@@ -69,7 +86,6 @@ import Layout from "../../layouts/Layout.astro";
           </svg>
         </div>
 
-        <!-- Champ "Autre proposition" -->
         <div id="autre-field" class="hidden mt-4">
           <div class="relative">
             <input
@@ -92,14 +108,12 @@ import Layout from "../../layouts/Layout.astro";
         </div>
       </fieldset>
 
-      <!-- Vos informations -->
       <fieldset>
         <legend class="text-xl font-semibold md:text-2xl lg:text-3xl mb-4">
           Vos informations
         </legend>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <!-- NOM -->
           <div class="relative">
             <textarea
               name="nom"
@@ -122,7 +136,6 @@ import Layout from "../../layouts/Layout.astro";
             </label>
           </div>
 
-          <!-- ENTREPRISE -->
           <div class="relative">
             <textarea
               name="entreprise"
@@ -145,7 +158,6 @@ import Layout from "../../layouts/Layout.astro";
             </label>
           </div>
 
-          <!-- EMAIL -->
           <div class="relative">
             <textarea
               name="email"
@@ -168,7 +180,6 @@ import Layout from "../../layouts/Layout.astro";
             </label>
           </div>
 
-          <!-- TÉLÉPHONE -->
           <div class="relative">
             <textarea
               name="telephone"
@@ -193,7 +204,6 @@ import Layout from "../../layouts/Layout.astro";
         </div>
       </fieldset>
 
-      <!-- Message -->
       <fieldset>
         <legend class="text-xl font-semibold md:text-2xl lg:text-3xl mb-4">
           Message
@@ -221,7 +231,6 @@ import Layout from "../../layouts/Layout.astro";
         </div>
       </fieldset>
 
-      <!-- Pièces jointes -->
       <fieldset>
         <legend class="text-xl font-semibold md:text-2xl lg:text-3xl mb-4">
           Pièces jointes
@@ -298,7 +307,6 @@ import Layout from "../../layouts/Layout.astro";
         </script>
       </fieldset>
 
-      <!-- Bouton -->
       <div class="text-center">
         <button
           type="submit"
@@ -307,7 +315,7 @@ import Layout from "../../layouts/Layout.astro";
           Envoyer
         </button>
       </div>
-    </form>
+    </form> -->
 
     <div class="mt-20">
       <h2 class="mb-6 text-center">Me contacter directement</h2>
