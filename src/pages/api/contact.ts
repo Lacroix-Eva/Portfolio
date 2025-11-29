@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import nodemailer from "nodemailer";
+import 'dotenv/config';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
