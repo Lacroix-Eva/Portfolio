@@ -9,7 +9,7 @@ import Layout from "../../layouts/Layout.astro";
   <main class="px-5 lg:px-20 py-10">
     <h2 class="mb-6 text-center">Envie de collaborer avec moi ?</h2>
 
-    <p class="text-center mb-10 opacity-80 w-500 mx-auto bg-base-100">
+    <p class="text-center mb-10 opacity-80 lg:w-500 mx-auto bg-base-100">
       Je suis étudiante en BUT MMI et je recherche une opportunité de
       <strong>stage</strong> ou d’<strong>alternance</strong> pour développer mes
       compétences en design, web et communication. N'hésitez pas à me contacter via
@@ -125,7 +125,7 @@ import Layout from "../../layouts/Layout.astro";
           <!-- ENTREPRISE -->
           <div class="relative">
             <textarea
-              name="nom"
+              name="entreprise"
               required
               placeholder=" "
               class="auto-grow peer w-full min-h-14 bg-white/6 border border-white/10 rounded-xl px-4 pt-4
@@ -148,7 +148,7 @@ import Layout from "../../layouts/Layout.astro";
           <!-- EMAIL -->
           <div class="relative">
             <textarea
-              name="nom"
+              name="email"
               required
               placeholder=" "
               class="auto-grow peer w-full min-h-14 bg-white/6 border border-white/10 rounded-xl px-4 pt-4
@@ -171,7 +171,7 @@ import Layout from "../../layouts/Layout.astro";
           <!-- TÉLÉPHONE -->
           <div class="relative">
             <textarea
-              name="nom"
+              name="telephone"
               required
               placeholder=" "
               class="auto-grow peer w-full min-h-14 bg-white/6 border border-white/10 rounded-xl px-4 pt-4
@@ -227,14 +227,75 @@ import Layout from "../../layouts/Layout.astro";
           Pièces jointes
         </legend>
 
-        <label class="block">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3">
           <input
+            id="fichiers-input"
+            name="fichiers[]"
             type="file"
-            name="fichiers"
             multiple
-            class="file-input border-r-100 w-full bg-white/6 border border-white/10 rounded-xl"
+            accept=".pdf,.png,.jpg,.jpeg,.doc,.docx"
+            class="sr-only"
           />
-        </label>
+
+          <label
+            for="fichiers-input"
+            class="btn btn-outline btn-accent w-full sm:w-auto text-center px-6 py-3 rounded-xl"
+          >
+            Choisir des fichiers
+          </label>
+
+          <div
+            id="fichiers-list"
+            class="w-full sm:flex-1 bg-white/6 border border-white/10 rounded-xl p-3 text-sm text-white/80 max-h-36 overflow-auto"
+            aria-live="polite"
+          >
+            <p class="opacity-60 text-xs mb-0">Aucun fichier sélectionné</p>
+          </div>
+        </div>
+
+        <p class="text-xs mt-2 text-white/60">
+          Formats acceptés: PDF, JPG, PNG, DOC. Taille max: 10MB par fichier.
+        </p>
+
+        <script>
+          (function () {
+            const input = document.getElementById("fichiers-input");
+            const list = document.getElementById("fichiers-list");
+
+            input.addEventListener("change", () => {
+              list.innerHTML = "";
+              if (!input.files || input.files.length === 0) {
+                list.innerHTML =
+                  '<p class="opacity-60 text-xs mb-0">Aucun fichier sélectionné</p>';
+                return;
+              }
+
+              const ul = document.createElement("ul");
+              ul.className = "space-y-1";
+
+              Array.from(input.files).forEach((file) => {
+                const li = document.createElement("li");
+                li.className = "flex items-center justify-between gap-2";
+
+                const name = document.createElement("span");
+                name.className = "truncate";
+                name.textContent = file.name;
+
+                const size = document.createElement("span");
+                size.className = "text-xs opacity-60";
+                const kb = Math.round(file.size / 1024);
+                size.textContent =
+                  kb >= 1024 ? Math.round(kb / 1024) + " MB" : kb + " KB";
+
+                li.appendChild(name);
+                li.appendChild(size);
+                ul.appendChild(li);
+              });
+
+              list.appendChild(ul);
+            });
+          })();
+        </script>
       </fieldset>
 
       <!-- Bouton -->
@@ -303,12 +364,15 @@ import Layout from "../../layouts/Layout.astro";
     });
   });
 
-  const autoGrowAreas = document.querySelectorAll("textarea");
-
-  autoGrowAreas.forEach((area) => {
-    area.addEventListener("input", () => {
-      area.style.height = "auto";
-      area.style.height = area.scrollHeight + "px";
+  const form = document.getElementById("contact-form");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const res = await fetch(form.action, {
+      method: "POST",
+      body: data,
     });
+    const json = await res.json();
+    alert(json.message);
   });
 </script>
