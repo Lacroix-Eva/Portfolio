@@ -59,6 +59,7 @@ export type ContactMessageRecord = {
 }
 
 export type ProjetsRecord<Tbilan = unknown, Toutils = unknown, Tprocessus = unknown, Trole = unknown> = {
+	Best?: boolean
 	annee?: number
 	bilan?: null | Tbilan
 	categorie?: string

@@ -1,61 +1,248 @@
 ---
 import LayoutMinimal from "../layouts/LayoutMinimal.astro";
+import pb from "../../pocketbase/pb";
+
+// Charger 3 projets marqués "Best = true" en SSR pour la home
+let featured = [];
+try {
+  const list = await pb.collection("Projets").getList(1, 3, {
+    sort: "-created",
+    filter: "Best = true",
+  });
+  featured = list.items || [];
+} catch (err) {
+  console.warn("Unable to load featured projects:", err);
+  featured = [];
+}
 ---
 
-<LayoutMinimal titrePage="Accueil" description="Bienvenue sur mon portfolio, créatrice d'expériences digitales claires, utiles et mémorables.">
-  <main class="relative overflow-hidden">
-    <section class="container mx-auto px-6">
+<LayoutMinimal
+  titrePage="Accueil"
+  description="Portfolio d'Eva Lacroix — étudiante en design & développement web, ouverte aux stages et alternances."
+>
+  <main class="relative overflow-hidden px-5 lg:px-20">
+    <section>
       <div
-        class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-10 lg:mb-20"
-      >
-        <div class="flex items-center justify-center">
-          <div class="w-full max-w-md rounded-3xl p-6">
+        class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-10 lg:mb-20">
+        <div class="flex self-start items-start justify-center mt-8">
+          <div class="w-full max-w-md rounded-3xl relative">
+            <div
+              class="absolute -inset-2 rounded-3xl neon-ring -z-10"
+              aria-hidden="true">
+            </div>
             <img
               src="/icons/avatar.svg"
               alt="Illustration"
-              class="w-full h-auto"
+              class="w-full h-auto rounded-3xl"
             />
           </div>
         </div>
 
-        <div class="space-y-6 mt-12">
-          <h1 class="neon neon-pulse">Bonjour, moi c'est Eva Lacroix</h1>
+        <div class="space-y-6">
+          <h1 class="neon neon-pulse text-left mt-8">Bonjour, moi c'est Eva Lacroix</h1>
           <h2 class="leading-tight">
-            Créatrice d'expériences digitales
-            <strong>claires</strong>, <strong>utiles</strong> et <strong
-              >mémorables</strong
-            >.
+            Etudiante en BUT MMI - à la recherche d'un stage et
+            alternance
           </h2>
 
-          <p class="text-muted max-w-xl">
-            Je conçois des sites web et des interfaces web performantes et
-            esthétiques. J'aide les petites entreprises et projets personnels à
-            se présenter avec clarté sur le web.
+          <div class="flex gap-3 mt-2 items-center">
+            <span
+              class="inline-block text-sm bg-secondary/20 text-secondary px-3 py-1 rounded-full"
+              >Stage : 30 mars — 5 juin 2026</span
+            >
+            <span
+              class="inline-block text-sm bg-accent/10 text-accent px-3 py-1 rounded-full"
+              >Alternance : dès sept. 2026</span
+            >
+          </div>
+
+          <p class="bg-base-100">
+            Je conçois des sites web et des interfaces web performantes et esthétiques. J'aide les petites entreprises et projets personnels à se présenter avec clarté sur le web.
           </p>
 
-          <div class="flex flex-wrap gap-3 mt-4">
-            <a href="/projects" class="btn btn-primary btn-lg"
-              >Voir mes projets</a
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 mt-4">
+            <a
+              href="/CV/CV_LACROIX_Eva.pdf"
+              class="btn btn-primary lg:w-full btn-neon neon-petit-texte"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Télécharger le CV">Visualiser mon CV</a
             >
-            <a href="/contact" class="btn btn-accent btn-lg">Contactez-moi</a>
-            <a href="/about" class="btn btn-info btn-lg">En savoir plus</a>
+            <a
+              href="/contact"
+              class="btn btn-secondary w-full btn-neon neon-petit-texte"
+              aria-label="Postuler au stage">Me contacter</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="container mx-auto px-6 py-6 lg:py-12">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+    <section>
+      <h2 class="mb-3 lg:mb-6">Mes projets favoris</h2>
+      <p class="mb-4">
+        Voici une sélection de projets sur lesquels j'ai travaillé et qui
+        reflètent mes compétences. 
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {
+          featured.length > 0 ? (
+            featured.map((project) => {
+              const img =
+                project.imageCouverture ||
+                (Array.isArray(project.imageContexte)
+                  ? project.imageContexte[0]
+                  : project.imageContexte) ||
+                "";
+              const imgUrl = img
+                ? `${pb.baseUrl.replace(/\/$/, "")}/api/files/${project.collectionId}/${project.id}/${img}`
+                : "/img/fond_footer.webp";
+              return (
+                <a
+                  href={`/projects/${project.id}`}
+                  data-categorie-filtre={project.categorie_filtre ?? ""}
+                  class="project-item block h-full"
+                >
+                  <div class="project-card relative rounded-2xl overflow-hidden group lg:h-75 w-auto">
+                    <img
+                      src={imgUrl}
+                      alt={`visuel principal ${project.titre}`}
+                      class="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+
+                    <div
+                      class="absolute inset-0 group-hover:bg-black/60 pointer-events-none"
+                      aria-hidden="true"
+                    />
+
+                    <div class="absolute top-3 right-3 flex flex-col gap-2 items-end z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                      {project.roleBadge1 ? (
+                        <span class="text-xs lg:text-sm bg-linear-to-br from-primary to-accent px-3 py-1 rounded-full">
+                          {project.roleBadge1}
+                        </span>
+                      ) : null}
+                      {project.roleBadge2 ? (
+                        <span class="text-xs lg:text-sm bg-linear-to-br from-primary to-accent px-3 py-1 rounded-full">
+                          {project.roleBadge2}
+                        </span>
+                      ) : null}
+                    </div>
+
+                    <div class="absolute left-3 bottom-3 z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                      {project.categorie ? (
+                        <span class="inline-block text-xs lg:text-sm bg-linear-to-br from-primary to-accent px-3 py-1 rounded-full">
+                          {project.categorie}
+                        </span>
+                      ) : null}
+                      <div class="text-sm lg:text-base font-medium mt-2 group-hover:bg-black/50 group-hover:px-2 group-hover:py-1 group-hover:rounded-lg">
+                        {project.titre}
+                      </div>
+                    </div>
+
+                    <div class="absolute right-3 bottom-3 z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 text-sm lg:text-sm group-hover:bg-black/50 group-hover:px-2 group-hover:py-1 group-hover:rounded-lg">
+                      {project.annee}
+                    </div>
+                  </div>
+                </a>
+              );
+            })
+          ) : (
+            <>
+              <a
+                href="/projects"
+                class="card card-compact bg-base-100 hover:shadow-2xl transition-shadow"
+              >
+                <figure class="h-44 bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden rounded-t-2xl">
+                  <img
+                    src="/img/fond_footer.webp"
+                    alt="Projet exemple"
+                    class="object-cover w-full h-full"
+                  />
+                </figure>
+                <div class="card-body">
+                  <h3 class="card-title">Projet exemple</h3>
+                  <p class="text-sm text-muted">
+                    Aucun projet dynamique disponible pour l'instant. Retrouvez
+                    mes travaux et études de cas sur la page Projets.
+                  </p>
+                  <div class="card-actions justify-end">
+                    <span class="badge badge-outline">Demo</span>
+                  </div>
+                </div>
+              </a>
+              <a
+                href="/projects"
+                class="card card-compact bg-base-100 hover:shadow-2xl transition-shadow"
+              >
+                <figure class="h-44 bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden rounded-t-2xl">
+                  <img
+                    src="/img/fond_footer.webp"
+                    alt="Projet exemple"
+                    class="object-cover w-full h-full"
+                  />
+                </figure>
+                <div class="card-body">
+                  <h3 class="card-title">Projet exemple</h3>
+                  <p class="text-sm text-muted">
+                    Exemple de projet — aucun projet dynamique trouvé.
+                  </p>
+                  <div class="card-actions justify-end">
+                    <span class="badge badge-outline">Demo</span>
+                  </div>
+                </div>
+              </a>
+              <a
+                href="/projects"
+                class="card card-compact bg-base-100 hover:shadow-2xl transition-shadow"
+              >
+                <figure class="h-44 bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden rounded-t-2xl">
+                  <img
+                    src="/img/fond_footer.webp"
+                    alt="Projet exemple"
+                    class="object-cover w-full h-full"
+                  />
+                </figure>
+                <div class="card-body">
+                  <h3 class="card-title">Projet exemple</h3>
+                  <p class="text-sm text-muted">
+                    Exemple de projet — aucun projet dynamique trouvé.
+                  </p>
+                  <div class="card-actions justify-end">
+                    <span class="badge badge-outline">Demo</span>
+                  </div>
+                </div>
+              </a>
+            </>
+          )
+        }
+      </div>
+
+      <div class="mt-6 text-center">
+        <a href="/projects" class="btn btn-base btn-accent btn-neon "
+          >Voir tous mes projets</a
+        >
+      </div>
+    </section>
+
+    <section class="pt-10 lg:pt-20">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-20">
         <div>
           <h2 class="mb-4">Travaillons ensemble</h2>
-          <p class="text-muted mb-4">Vous avez un projet ? Parlons-en.</p>
-          <a href="/contact" class="btn btn-lg btn-primary">Contactez-moi</a>
+          <p class="text-muted mb-4">
+            Je suis ouverte à des propositions de stage (30/03 → 05/06/2026) et
+            à des offres d'alternance pour septembre 2026. Parlons de votre
+            besoin et de la manière dont je peux contribuer.
+          </p>
+          <a
+            href="/contact"
+            class="btn btn-base btn-primary btn-neon">Contactez-moi</a
+          >
         </div>
         <div>
           <h2 class="mb-4">Compétences techniques</h2>
           <ul class="list-disc list-inside text-lg lg:text-xl space-y-1">
             <li>Astro, Tailwind, JavaScript moderne</li>
-            <li>PocketBase pour CMS léger</li>
+            <li>PocketBase</li>
             <li>Accessibilité & performance</li>
             <li>Design d'interfaces et prototypage</li>
           </ul>

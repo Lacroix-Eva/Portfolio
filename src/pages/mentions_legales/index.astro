@@ -78,7 +78,7 @@ import Layout from "../../layouts/Layout.astro";
     </section>
 
     <p class="text-neutral text-center">
-      Dernière mise à jour : {new Date().getFullYear()}.
+      Dernière mise à jour : {new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}.
     </p>
   </main>
 </Layout>

@@ -42,7 +42,7 @@
 /* === EFFET NÉON === */
 :root {
     --neon-color: #0073A1;
-    --neon-color-primary: #9200B0;
+    --neon-color-primary: #9300b06a;
 }
 
 /* ========== Effet néon (statique) ========== */
@@ -95,6 +95,30 @@
 
     .neon-petit-texte-pulse {
         animation: pulseNeonPetitTexte 1.6s ease-in-out infinite alternate;
+    }
+
+    /* ==== Décor néon supplémentaire ==== */
+    .neon-ring {
+        background: radial-gradient(closest-side, rgba(146,0,176,0.18), rgba(0,0,0,0));
+        box-shadow: 0 0 18px rgba(146,0,176,0.28), 0 0 40px rgba(0,115,161,0.15);
+    }
+
+    .btn-neon {
+        position: relative;
+        transition: transform .12s ease, box-shadow .12s ease;
+        box-shadow: 0 6px 20px rgba(0,115,161,0.06);
+    }
+    .btn-neon:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0,115,161,0.18), 0 0 18px rgba(146,0,176,0.08);
+    }
+
+    .neon-underline {
+        height: 6px;
+        border-radius: 9999px;
+        background: linear-gradient(90deg, rgba(146,0,176,0.95), rgba(0,115,161,0.95));
+        filter: blur(6px);
+        opacity: 0.9;
     }
 }
 
