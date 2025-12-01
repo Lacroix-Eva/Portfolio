@@ -2,7 +2,7 @@
 const { item } = Astro.props;
 ---
 
-<header class="relative flex items-center justify-between lg:m-0 mb-14">
+<header class="relative flex items-center justify-between lg:m-0 mb-14 mt-2">
   <!-- Logo à gauche -->
   <a href="/" aria-label="Accueil" class="z-1">
     <img
@@ -23,7 +23,7 @@ const { item } = Astro.props;
   <div class="absolute right-0">
     <button
       id="menu-btn"
-      class="focus:outline-none mr-5"
+      class="focus:outline-none mr-3 lg:mr-5"
       aria-label="Ouvrir le menu"
       aria-expanded="false"
     >
@@ -54,7 +54,7 @@ const { item } = Astro.props;
     <!-- Bouton close -->
     <button
       id="close-menu"
-      class="absolute right-6 top-6 lg:right-15 lg:top-10 p-2 rounded-full hover:bg-base-300/40
+      class="absolute right-3 top-3 lg:right-15 lg:top-10 p-2 rounded-full hover:bg-base-300/40
            transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
       aria-label="Fermer le menu"
     >

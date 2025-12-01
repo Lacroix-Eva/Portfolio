@@ -8,8 +8,11 @@ const projets = await pb.collection("Projets").getFullList();
 const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
 ---
 
-<Layout nomPage="Projets" description="Découvrez mes projets de création de sites web et d'interfaces digitales.">
-  <main class="px-5 lg:px-25">
+<Layout
+  nomPage="Projets"
+  description="Découvrez mes projets de création de sites web et d'interfaces digitales."
+>
+  <main class="px-5 lg:px-20">
     <div class="mt-2 lg:mt-8 mb-5 lg:mb-12">
       <style>
         /* style visuel pour l'état actif (le script ajoute/retire btn-primary) */
@@ -35,7 +38,7 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
           data-filter="Educatif"
           aria-pressed="false"
           class="filter-btn btn inline-flex w-max bg-linear-to-b from-secondary to-primary hover:from-info hover:to-success font-medium py-1 lg:py-2 items-center px-4 lg:px-5 rounded-4xl text-lg lg:text-2xl"
-          >Educatifs</button
+          >Académiques</button
         >
         <button
           type="button"

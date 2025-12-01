@@ -6,30 +6,32 @@ import Layout from "../../layouts/Layout.astro";
   nomPage="Contact"
   description="Contactez-moi pour discuter d'une opportunité de stage ou d'alternance dans les domaines du digital, du design ou de la communication."
 >
-  <main class="px-5 lg:px-20 py-10">
+  <main class="px-5 lg:px-20">
     <h2 class="mb-6 text-center">Envie de collaborer avec moi ?</h2>
 
     <p class="text-center mb-10 opacity-80 bg-base-100">
       Je suis étudiante en BUT MMI et je recherche une opportunité de
       <strong>stage</strong> pour développer mes compétences en design, web et communication.
-      N'hésitez pas à me contacter via ce formulaire.
+      N'hésitez pas à me contacter
+      <!-- via ce formulaire -->
+      .
     </p>
 
     <!-- Bloc maintenance -->
     <div
-      class="mx-auto max-w-3xl lg:max-w-4xl w-full p-12 rounded-3xl shadow-2xl
+      class="mx-auto md:max-w-3xl lg:max-w-4xl w-full p-6 lg:p-12 rounded-3xl shadow-2xl
          bg-white/5 backdrop-blur-xl border border-white/10 text-center"
     >
-      <div class="mb-4">
+      <div class="mb-2 lg:mb-4">
         <span
-          class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-accent/20 text-accent mx-auto mb-3 text-4xl"
+          class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-accent/20 text-accent mb-2 lg:mb-3 text-4xl"
           aria-hidden="true"
         >
           🛠️
         </span>
       </div>
 
-      <h3 class="mb-2">Formulaire temporairement indisponible</h3>
+      <h3 class="mb-4">Formulaire temporairement indisponible</h3>
       <p class="text-white/70 mb-4">
         Je travaille actuellement à améliorer le formulaire. <br />
         Merci de votre patience !
@@ -317,20 +319,17 @@ import Layout from "../../layouts/Layout.astro";
       </div>
     </form> -->
 
-    <div class="mt-20">
-      <h2 class="mb-6 text-center">Me contacter directement</h2>
-      <div class="space-y-4 text-center">
-        <p>
-          Email :
-          <a href="mailto:lacroixeva32@gmail.com" class="link">
-            lacroixeva32@gmail.com
-          </a>
-        </p>
+    <div class="mt-12 lg:mt-20">
+      <h2 class="mb-3 lg:mb-6 text-center">Me contacter par mail</h2>
+      <div class="space-y-4 text-center text-neutral text-base lg:text-xl">
+        <a href="mailto:lacroixeva32@gmail.com" class="link">
+          lacroixeva32@gmail.com
+        </a>
       </div>
     </div>
 
-    <div class="mt-20">
-      <h2 class="mb-6 text-center">Besoin de mon CV ?</h2>
+    <div class="mt-12 lg:mt-20">
+      <h2 class="mb-3 lg:mb-6 text-center">Besoin de mon CV ?</h2>
       <div class="text-center flex justify-center gap-4">
         <a
           href="/CV/CV_LACROIX_Eva.pdf"
