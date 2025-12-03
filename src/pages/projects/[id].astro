@@ -1,6 +1,5 @@
 ---
 import LayoutMinimal from "../../layouts/LayoutMinimal.astro";
-// import Layout from "../../layouts/Layout.astro";
 import pb from "../../../pocketbase/pb";
 import {
   Collections,
@@ -39,20 +38,43 @@ const outils: string[] = Array.isArray(projet.outils)
     ? [projet.outils]
     : [];
 
-// ✅ Utiliser la vraie base URL PocketBase
+// URL PocketBase
 const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
-// si tu as configuré Apache pour que /api/ pointe vers PocketBase
+
+// ---------------------------
+//  FORMATAGE DES RESULTATS
+// ---------------------------
+
+// 1) Texte brut
+const rawText = Array.isArray(projet.resultatTextes)
+  ? projet.resultatTextes.join("\n\n")
+  : String(projet.resultatTextes || "");
+
+// 2) Transformer les URLs en <a> avant tout
+let linkedText = rawText.replace(
+  /(https?:\/\/[^\s<]+)/g,
+  `<a href="$1" target="_blank" rel="noopener noreferrer" class="text-accent underline hover:opacity-80">$1</a>`
+);
+
+// 3) Remplacer les doubles retours à la ligne par des paragraphes
+const paragraphs = linkedText.split(/\n{2,}/).map(p => {
+  // remplacer les retours simples dans le paragraphe par <br/>
+  return `<p>${p.replace(/\n/g, "<br/>")}</p>`;
+});
+
+// 4) Joindre les paragraphes
+const safeText = paragraphs.join("");
 ---
 
-<LayoutMinimal description={projet.courteDescription}>
+<LayoutMinimal titrePage={projet.titre} description={projet.courteDescription}>
   <h1
     class="inset-x-0 flex justify-center mx-4 lg:mx-10 bg-base-100 neon neon-pulse mb-7"
   >
     {projet.titre}
   </h1>
 
-  <!-- <Layout nomPage={projet.titre} description={projet.courteDescription}> -->
   <main class="pt-6 px-5 lg:px-25">
+    <!-- BADGES -->
     <div
       class="flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-3 mb-6 lg:mb-10"
     >
@@ -71,16 +93,15 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
       >
         <p class="whitespace-nowrap text-center">{projet.roleBadge1}</p>
       </div>
-      {
-        projet.roleBadge2?.trim() && (
-          <div class="inline-flex w-max bg-linear-to-b from-secondary to-primary font-medium py-1 lg:py-2 items-center px-4 lg:px-5 rounded-4xl">
-            <p class="whitespace-nowrap text-center">{projet.roleBadge2}</p>
-          </div>
-        )
-      }
+
+      {projet.roleBadge2?.trim() && (
+        <div class="inline-flex w-max bg-linear-to-b from-secondary to-primary font-medium py-1 lg:py-2 items-center px-4 lg:px-5 rounded-4xl">
+          <p class="whitespace-nowrap text-center">{projet.roleBadge2}</p>
+        </div>
+      )}
     </div>
 
-    <!-- Image principale -->
+    <!-- IMAGE PRINCIPALE -->
     <div class="flex justify-center">
       <img
         src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${projet.imageCouverture}`}
@@ -91,196 +112,156 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
       />
     </div>
 
-    <!-- Contexte -->
-    {
-      projet.contexte && (
-        <section class="mt-8 lg:mt-15">
-          <h2 class="mb-2 lg:mb-4">Contexte</h2>
-          <div class=" grid grid-cols-1 md:grid-cols-2 gap-9 items-start ">
-            <div class="bg-base-100">
-              <p
-                class="prose max-w-none"
-                set:html={String(projet.contexte || "")
-                  .replace(/&/g, "&amp;")
-                  .replace(/</g, "&lt;")
-                  .replace(/>/g, "&gt;")
-                  .replace(/"/g, "&quot;")
-                  .replace(/'/g, "&#39;")
-                  .replace(/\r\n|\r|\n/g, "<br/>")}
+    <!-- CONTEXTE -->
+    {projet.contexte && (
+      <section class="mt-8 lg:mt-15">
+        <h2 class="mb-2 lg:mb-4">Contexte</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-9 items-start">
+          <div class="bg-base-100">
+            <p
+              class="prose max-w-none"
+              set:html={String(projet.contexte || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;")
+                .replace(/\r\n|\r|\n/g, "<br/>")}
+            />
+          </div>
+
+          <div class="flex flex-col gap-4 items-center">
+            {imageContexte.map((file) => (
+              <img
+                src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                alt="Contexte visuel"
+                class="w-full max-h-[600px] object-contain"
+                loading="lazy"
               />
-            </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
+    <!-- ROLE -->
+    {roles.length > 0 && (
+      <section class="mt-8 lg:mt-15">
+        <h2 class="mb-2 lg:mb-4">Mon rôle</h2>
+        <ul class="list-disc list-inside space-y-2 text-base lg:text-xl ml-4 lg:ml-8">
+          {roles.map((r) => (
+            <li>{r}</li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <!-- PROCESSUS -->
+    {(Array.isArray(projet.processus)
+      ? projet.processus
+      : projet.processus
+        ? String(projet.processus).split(/\r?\n/).filter(Boolean)
+        : []
+    ).length > 0 && (
+      <section class="mt-8 lg:mt-15">
+        <h2 class="mb-2 lg:mb-4">Processus</h2>
+        <ol class="list-decimal list-inside space-y-2 text-base lg:text-xl ml-4 lg:ml-8">
+          {(Array.isArray(projet.processus)
+            ? projet.processus
+            : String(projet.processus || "").split(/\r?\n/).filter(Boolean)
+          ).map((p) => (
+            <li>{p}</li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+    <!-- RESULTATS -->
+    {(resultatImages.length > 0 || safeText.trim()) && (
+      <section class="mt-8 lg:mt-15">
+        <h2 class="mb-2 lg:mb-4 bg-base-100">Résultats finaux</h2>
+
+        <div class="grid gap-6">
+
+          <!-- Texte -->
+          {safeText.trim() && (
+  <div class="prose max-w-none" set:html={safeText} />
+)}
+
+
+          <!-- Images / Vidéos -->
+          {resultatImages.length > 0 && (
             <div class="flex flex-col gap-4">
-              {imageContexte.map((file) => (
-                <img
-                  src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
-                  alt="Contexte visuel"
-                  class="w-full object-cover"
-                  style="width:100%; height:auto;"
-                  loading="lazy"
-                />
-              ))}
+              {resultatImages.map((file) => {
+                const isVideo =
+                  file.endsWith(".mp4") || file.endsWith(".webm");
+
+                return isVideo ? (
+                  <video
+                    controls
+                    class="w-full md:w-3/4 rounded-2xl shadow-lg object-cover mb-0"
+                    style="aspect-ratio:16/9; height:auto; object-fit:cover;"
+                  >
+                    <source
+                      src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                    />
+                  </video>
+                ) : (
+                  <img
+                    src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                    alt="Résultat"
+                    class="rounded-lg shadow-md"
+                    style="aspect-ratio:4/3; width:100%; height:auto; object-fit:cover;"
+                    loading="lazy"
+                  />
+                );
+              })}
             </div>
-          </div>
-        </section>
-      )
-    }
-
-    <!-- Rôle -->
-    {
-      roles.length > 0 && (
-        <section class="mt-8 lg:mt-15">
-          <h2 class="mb-2 lg:mb-4">Mon rôle</h2>
-          <ul class="list-disc list-inside space-y-2 text-lg lg:text-2xl ml-4 lg:ml-8 ">
-            {roles.map((r) => (
-              <li>{r}</li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
-
-    <!-- Processus -->
-    {
-      // Normaliser le champ processus en tableau de lignes
-      (Array.isArray(projet.processus)
-        ? projet.processus
-        : projet.processus
-          ? String(projet.processus).split(/\r?\n/).filter(Boolean)
-          : []
-      ).length > 0 && (
-        <section class="mt-8 lg:mt-15">
-          <h2 class="mb-2 lg:mb-4">Processus</h2>
-          <ol class="list-decimal list-inside space-y-2 text-lg lg:text-2xl ml-4 lg:ml-8">
-            {(Array.isArray(projet.processus)
-              ? projet.processus
-              : projet.processus
-                ? String(projet.processus).split(/\r?\n/).filter(Boolean)
-                : []
-            ).map((p) => (
-              <li>{p}</li>
-            ))}
-          </ol>
-        </section>
-      )
-    }
-
-    <!-- Résultats -->
-    {
-      (resultatImages.length > 0 ||
-        (Array.isArray(projet.resultatTextes)
-          ? projet.resultatTextes
-          : projet.resultatTextes
-            ? String(projet.resultatTextes).split(/\r?\n/).filter(Boolean)
-            : []
-        ).length > 0) && (
-        <section class="mt-8 lg:mt-15">
-          <h2 class="mb-2 lg:mb-4 bg-base-100">Résultats finaux</h2>
-          <div class="grid gap-6">
-            {
-              // Texte des résultats (si présent) — préserver les sauts de ligne
-              (Array.isArray(projet.resultatTextes)
-                ? projet.resultatTextes
-                : projet.resultatTextes
-                  ? String(projet.resultatTextes)
-                  : ""
-              ).trim() && (
-                <p
-                  class="prose max-w-none"
-                  set:html={String(
-                    Array.isArray(projet.resultatTextes)
-                      ? projet.resultatTextes.join("\n")
-                      : projet.resultatTextes
-                  )
-                    .replace(/&/g, "&amp;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;")
-                    .replace(/"/g, "&quot;")
-                    .replace(/'/g, "&#39;")
-                    .replace(/\r\n|\r|\n/g, "<br/>")}
-                />
-              )
-            }
-
-            {
-              // Images / vidéos des résultats
-              resultatImages.length > 0 && (
-                <div class="flex flex-col gap-4">
-                  {resultatImages.map((file) => {
-                    const isVideo =
-                      file.endsWith(".mp4") || file.endsWith(".webm");
-                    return isVideo ? (
-                      <video
-                        controls
-                        class="w-full md:w-3/4 rounded-2xl shadow-lg object-cover mb-0"
-                        style="aspect-ratio:16/9; height:auto; object-fit:cover;"
-                      >
-                        <source
-                          src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
-                        />
-                      </video>
-                    ) : (
-                      <img
-                        src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
-                        alt="Résultat"
-                        class="rounded-lg shadow-md"
-                        style="aspect-ratio:4/3; width:100%; height:auto; object-fit:cover;"
-                        loading="lazy"
-                      />
-                    );
-                  })}
-                </div>
-              )
-            }
-          </div>
-        </section>
-      )
-    }
-
-    {
-      projet.bilan && (
-        <section class="mt-8 lg:mt-15">
-          <h2 class="mb-2 lg:mb-4">Bilan et valeur ajoutée</h2>
-
-          {/* Liste des intros */}
-          {Array.isArray(projet.bilan.intro) && (
-            <ul class="list-disc list-inside space-y-2 text-lg lg:text-2xl ml-4 lg:ml-8">
-              {projet.bilan.intro.map((texte) => (
-                <li>{texte}</li>
-              ))}
-            </ul>
           )}
+        </div>
+      </section>
+    )}
 
-          {/* Sections avec sous-puces */}
-          {Array.isArray(projet.bilan.sections) &&
-            projet.bilan.sections.map((section) => (
-              <div class="mt-4">
-                <h3 class="mb-2 ml-4 lg:ml-8">{section.title}</h3>
-                <ul class="list-disc list-inside ml-8 lg:ml-16 space-y-1 text-lg lg:text-2xl">
-                  {section.items.map((item) => (
-                    <li>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-        </section>
-      )
-    }
+    <!-- BILAN -->
+    {projet.bilan && (
+      <section class="mt-8 lg:mt-15">
+        <h2 class="mb-2 lg:mb-4">Bilan et valeur ajoutée</h2>
 
-    <!-- Outils utilisés -->
-    {
-      outils.length > 0 && (
-        <section class=" mt-8 lg:mt-15">
-          <h2 class="mb-2 lg:mb-4">Outils utilisés</h2>
-          <ul class="flex flex-wrap gap-3">
-            {outils.map((outil) => (
-              <li class="inline-flex bg-linear-to-b from-secondary to-primary font-medium py-1 items-center px-4 rounded-4xl">
-                {outil}
-              </li>
+        {Array.isArray(projet.bilan.intro) && (
+          <ul class="list-disc list-inside space-y-2 text-base lg:text-xl ml-4 lg:ml-8">
+            {projet.bilan.intro.map((texte) => (
+              <li>{texte}</li>
             ))}
           </ul>
-        </section>
-      )
-    }
+        )}
+
+        {Array.isArray(projet.bilan.sections) &&
+          projet.bilan.sections.map((section) => (
+            <div class="mt-4">
+              <h3 class="mb-2 ml-4 lg:ml-8">{section.title}</h3>
+              <ul class="list-disc list-inside ml-8 lg:ml-16 space-y-1 text-base lg:text-xl">
+                {section.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+      </section>
+    )}
+
+    <!-- OUTILS -->
+    {outils.length > 0 && (
+      <section class="mt-8 lg:mt-15">
+        <h2 class="mb-2 lg:mb-4">Outils utilisés</h2>
+        <ul class="flex flex-wrap gap-3">
+          {outils.map((outil) => (
+            <li class="inline-flex bg-linear-to-b from-secondary to-primary font-medium py-1 items-center px-4 rounded-4xl">
+              {outil}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
   </main>
 </LayoutMinimal>
+
