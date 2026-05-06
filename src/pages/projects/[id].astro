@@ -38,6 +38,14 @@ const outils: string[] = Array.isArray(projet.outils)
     ? [projet.outils]
     : [];
 
+const resultatImagesCount = resultatImages.length;
+const resultatGridClass =
+  resultatImagesCount === 1
+    ? "grid grid-cols-1 gap-4"
+    : resultatImagesCount === 2
+      ? "grid grid-cols-1 md:grid-cols-2 gap-4"
+      : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4";
+
 // URL PocketBase
 const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
 
@@ -181,39 +189,44 @@ const safeText = paragraphs.join("");
       <section class="mt-8 lg:mt-15">
         <h2 class="mb-2 lg:mb-4 bg-base-100">Résultats finaux</h2>
 
-        <div class="grid gap-6">
+        <div class="grid grid-cols-1 gap-6">
 
           <!-- Texte -->
           {safeText.trim() && (
-  <div class="prose max-w-none" set:html={safeText} />
-)}
+            <div class="prose max-w-none rounded-2xl bg-base-100/70 p-5 lg:p-6 shadow-sm">
+              <div set:html={safeText} />
+            </div>
+          )}
 
 
           <!-- Images / Vidéos -->
           {resultatImages.length > 0 && (
-            <div class="flex flex-col gap-4">
+            <div class={resultatGridClass}>
               {resultatImages.map((file) => {
                 const isVideo =
                   file.endsWith(".mp4") || file.endsWith(".webm");
 
                 return isVideo ? (
-                  <video
-                    controls
-                    class="w-full md:w-3/4 rounded-2xl shadow-lg object-cover mb-0"
-                    style="aspect-ratio:16/9; height:auto; object-fit:cover;"
-                  >
-                    <source
-                      src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
-                    />
-                  </video>
+                  <div class="flex h-72 md:h-80 items-center justify-center overflow-hidden rounded-2xl bg-base-100 shadow-md">
+                    <video
+                      controls
+                      class="h-full w-full object-contain"
+                      style="aspect-ratio:16/9;"
+                    >
+                      <source
+                        src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                      />
+                    </video>
+                  </div>
                 ) : (
-                  <img
-                    src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
-                    alt="Résultat"
-                    class="rounded-lg shadow-md"
-                    style="aspect-ratio:4/3; width:100%; height:auto; object-fit:cover;"
-                    loading="lazy"
-                  />
+                  <div class="flex h-72 md:h-80 items-center justify-center overflow-hidden rounded-2xl bg-base-100 shadow-md p-3">
+                    <img
+                      src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                      alt="Résultat"
+                      class="h-full w-full object-contain"
+                      loading="lazy"
+                    />
+                  </div>
                 );
               })}
             </div>
