@@ -23,12 +23,14 @@ try {
   <main class="relative overflow-hidden px-5 lg:px-20">
     <section>
       <div
-        class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-10 lg:mb-20">
+        class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-10 lg:mb-20"
+      >
         <div class="flex self-start items-start justify-center mt-8">
           <div class="w-full max-w-md rounded-3xl relative">
             <div
               class="absolute -inset-2 rounded-3xl neon-ring -z-10"
-              aria-hidden="true">
+              aria-hidden="true"
+            >
             </div>
             <img
               src="/icons/avatar.svg"
@@ -39,9 +41,11 @@ try {
         </div>
 
         <div class="space-y-6">
-          <h1 class="neon neon-pulse text-left mt-8">Bonjour, moi c'est Eva Lacroix</h1>
+          <h1 class="neon neon-pulse text-left mt-8">
+            Bonjour, moi c'est Eva Lacroix
+          </h1>
           <h2 class="leading-tight">
-            Etudiante en BUT MMI - à la recherche d'une alternance
+            Étudiante en BUT MMI - à la recherche d'une alternance
           </h2>
 
           <div class="flex gap-3 mt-2 items-center">
@@ -51,14 +55,20 @@ try {
             > -->
             <span
               class="inline-block text-sm bg-accent/10 text-accent px-3 py-1 rounded-full"
-              >Alternance : pour ma 3ème année | dès sept. 2026</span
+              >Alternance : 3ᵉ année | Webdesign, UX/UI & développement
+              front-end</span
             >
           </div>
 
-                {/* Description des compétences */}
-                <p class="bg-base-100">
-                Je sais concevoir des sites web et des interfaces performantes et esthétiques. J'apprends à créer des expériences web claires et accessibles.
-                </p>
+          {/* Description des compétences */}
+          <p class="bg-base-100">
+            Je conçois des interfaces web à la fois esthétiques, fonctionnelles
+            et accessibles.
+          </p>
+          <p class="bg-base-100">
+            Mon objectif est de créer des expériences claires et cohérentes, en
+            combinant design, UX/UI et développement front-end.
+          </p>
 
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 mt-4">
             <a
@@ -69,20 +79,22 @@ try {
               aria-label="Télécharger le CV">Visualiser mon CV</a
             >
             <a
+              v
               href="/contact"
               class="btn btn-secondary w-full btn-neon neon-petit-texte"
-              aria-label="Postuler au stage">Me contacter</a>
+              aria-label="Postuler au stage">Me contacter</a
+            >
           </div>
         </div>
       </div>
     </section>
 
-    
     <section>
       <h2 class="mb-3 lg:mb-6">Mes projets favoris</h2>
       <p class="mb-4">
         Voici une sélection de projets sur lesquels j'ai travaillé et qui
-        reflètent mes compétences. 
+        reflètent mes compétences en design, développement et communication
+        digitale.
       </p>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {
@@ -219,7 +231,7 @@ try {
       </div>
 
       <div class="mt-6 text-center">
-        <a href="/projects" class="btn btn-base btn-accent btn-neon "
+        <a href="/projects" class="btn btn-base btn-accent btn-neon"
           >Voir tous mes projets</a
         >
       </div>
@@ -229,21 +241,22 @@ try {
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-20">
         <div>
           <h2 class="mb-4">Travaillons ensemble</h2>
-          <p class="text-muted mb-4">Je suis ouverte à des offres d'alternance pour septembre 2026 ou à des offres de stage pour début 2027. Parlons de votre
-            besoin et de la manière dont je peux contribuer.
+          <p class="text-muted mb-4">
+            Je recherche une alternance pour septembre 2026 ou des opportunités
+            de stage pour début 2027. Discutons de vos besoins et de la manière
+            dont je peux contribuer à vos projets.
           </p>
-          <a
-            href="/contact"
-            class="btn btn-base btn-primary btn-neon">Contactez-moi</a
+          <a href="/contact" class="btn btn-base btn-primary btn-neon"
+            >Contactez-moi</a
           >
         </div>
         <div>
           <h2 class="mb-4">Compétences techniques</h2>
           <ul class="list-disc list-inside text-lg lg:text-xl space-y-1">
-            <li>Astro, Tailwind, JavaScript moderne</li>
+            <li>UX/UI design · prototypage</li>
+            <li>Accessibilité web · performance</li>
+            <li>Astro · Tailwind CSS · JavaScript · WordPress</li>
             <li>PocketBase</li>
-            <li>Accessibilité & performance</li>
-            <li>Design d'interfaces et prototypage</li>
           </ul>
         </div>
       </div>
