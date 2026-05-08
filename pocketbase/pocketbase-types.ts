@@ -6,7 +6,8 @@ import type PocketBase from 'pocketbase'
 import type { RecordService } from 'pocketbase'
 
 export enum Collections {
-	ContactMessage = "ContactMessage",
+	Collaborateurs = "Collaborateurs",
+	ProjectCollaborators = "ProjectCollaborators",
 	Projets = "Projets",
 	Authorigins = "_authOrigins",
 	Externalauths = "_externalAuths",
@@ -43,27 +44,34 @@ export type AuthSystemFields<T = unknown> = {
 
 // Record types for each collection
 
-export type ContactMessageRecord = {
-	budget?: number
+export type CollaborateursRecord = {
 	created?: IsoDateString
-	deadline?: IsoDateString
-	email?: string
-	fichiers?: string[]
 	id: string
-	message?: HTMLString
 	nom?: string
-	prenom?: string
-	projet?: string
-	telephone?: string
+	portfolioUrl?: string
 	updated?: IsoDateString
 }
 
+export type ProjectCollaboratorsRecord = {
+	created?: IsoDateString
+	id: string
+	project?: RecordIdString
+	role?: string
+	updated?: IsoDateString
+	user?: RecordIdString
+}
+
+export enum ProjetsCategorieFiltreOptions {
+	"Personnel" = "Personnel",
+	"Educatif" = "Educatif",
+	"Professionnel" = "Professionnel",
+}
 export type ProjetsRecord<Tbilan = unknown, Toutils = unknown, Tprocessus = unknown, Trole = unknown> = {
 	Best?: boolean
 	annee?: number
 	bilan?: null | Tbilan
 	categorie?: string
-	categorie_filtre?: string
+	categorie_filtre?: ProjetsCategorieFiltreOptions
 	contexte?: string
 	courteDescription?: string
 	created?: IsoDateString
@@ -72,7 +80,7 @@ export type ProjetsRecord<Tbilan = unknown, Toutils = unknown, Tprocessus = unkn
 	imageCouverture?: string
 	outils?: null | Toutils
 	processus?: null | Tprocessus
-	resultatImage?: string
+	resultatImage?: string[]
 	resultatTextes?: string
 	role?: null | Trole
 	roleBadge1?: string
@@ -131,9 +139,8 @@ export type SuperusersRecord = {
 }
 
 export type UsersRecord = {
-	avatar?: string
 	created?: IsoDateString
-	email: string
+	email?: string
 	emailVisibility?: boolean
 	id: string
 	name?: string
@@ -144,7 +151,8 @@ export type UsersRecord = {
 }
 
 // Response types include system fields and match responses from the PocketBase API
-export type ContactMessageResponse<Texpand = unknown> = Required<ContactMessageRecord> & BaseSystemFields<Texpand>
+export type CollaborateursResponse<Texpand = unknown> = Required<CollaborateursRecord> & BaseSystemFields<Texpand>
+export type ProjectCollaboratorsResponse<Texpand = unknown> = Required<ProjectCollaboratorsRecord> & BaseSystemFields<Texpand>
 export type ProjetsResponse<Tbilan = unknown, Toutils = unknown, Tprocessus = unknown, Trole = unknown, Texpand = unknown> = Required<ProjetsRecord<Tbilan, Toutils, Tprocessus, Trole>> & BaseSystemFields<Texpand>
 export type AuthoriginsResponse<Texpand = unknown> = Required<AuthoriginsRecord> & BaseSystemFields<Texpand>
 export type ExternalauthsResponse<Texpand = unknown> = Required<ExternalauthsRecord> & BaseSystemFields<Texpand>
@@ -156,7 +164,8 @@ export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSyste
 // Types containing all Records and Responses, useful for creating typing helper functions
 
 export type CollectionRecords = {
-	ContactMessage: ContactMessageRecord
+	Collaborateurs: CollaborateursRecord
+	ProjectCollaborators: ProjectCollaboratorsRecord
 	Projets: ProjetsRecord
 	_authOrigins: AuthoriginsRecord
 	_externalAuths: ExternalauthsRecord
@@ -167,7 +176,8 @@ export type CollectionRecords = {
 }
 
 export type CollectionResponses = {
-	ContactMessage: ContactMessageResponse
+	Collaborateurs: CollaborateursResponse
+	ProjectCollaborators: ProjectCollaboratorsResponse
 	Projets: ProjetsResponse
 	_authOrigins: AuthoriginsResponse
 	_externalAuths: ExternalauthsResponse
@@ -181,7 +191,8 @@ export type CollectionResponses = {
 // https://github.com/pocketbase/js-sdk#specify-typescript-definitions
 
 export type TypedPocketBase = PocketBase & {
-	collection(idOrName: 'ContactMessage'): RecordService<ContactMessageResponse>
+	collection(idOrName: 'Collaborateurs'): RecordService<CollaborateursResponse>
+	collection(idOrName: 'ProjectCollaborators'): RecordService<ProjectCollaboratorsResponse>
 	collection(idOrName: 'Projets'): RecordService<ProjetsResponse>
 	collection(idOrName: '_authOrigins'): RecordService<AuthoriginsResponse>
 	collection(idOrName: '_externalAuths'): RecordService<ExternalauthsResponse>

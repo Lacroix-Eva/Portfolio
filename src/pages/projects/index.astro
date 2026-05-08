@@ -38,15 +38,21 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
           data-filter="Educatif"
           aria-pressed="false"
           class="filter-btn btn inline-flex w-max bg-linear-to-b from-secondary to-primary hover:from-info hover:to-success font-medium py-1 lg:py-2 items-center px-4 lg:px-5 rounded-4xl text-lg lg:text-2xl"
-          >Académiques</button
-        >
+          >Académiques</button>
+
+        <button
+          type="button"
+          data-filter="Professionnel"
+          aria-pressed="false"
+          class="filter-btn btn inline-flex w-max bg-linear-to-b from-secondary to-primary hover:from-info hover:to-success font-medium py-1 lg:py-2 items-center px-4 lg:px-5 rounded-4xl text-lg lg:text-2xl"
+          >Professionnels</button>
+
         <button
           type="button"
           data-filter="Personnel"
           aria-pressed="false"
           class="filter-btn btn inline-flex w-max bg-linear-to-b from-secondary to-primary hover:from-info hover:to-success font-medium py-1 lg:py-2 items-center px-4 lg:px-5 rounded-4xl text-lg lg:text-2xl"
-          >Personnels</button
-        >
+          >Personnels</button>
       </div>
     </div>
 
@@ -88,18 +94,20 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
               </div>
 
               <div class="grid grid-cols-2">
-                <div class="absolute left-3 bottom-3 z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                <div class="absolute left-3 right-3 bottom-3 z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
                   {project.categorie ? (
                     <span class="inline-block text-xs lg:text-sm bg-linear-to-br from-primary to-accent px-3 py-1 rounded-full">
                       {project.categorie}
                     </span>
                   ) : null}
-                  <div class="text-sm lg:text-base font-medium mt-2 group-hover:bg-black/50 group-hover:px-2 group-hover:py-1 group-hover:rounded-lg">
-                    {project.titre}
+                  <div class="mt-2 flex items-center justify-between gap-4">
+                    <div class="text-sm lg:text-base font-medium bg-black/50 px-2 py-1 rounded-lg">
+                      {project.titre}
+                    </div>
+                    <div class="text-sm lg:text-sm bg-black/50 px-2 py-1 rounded-lg">
+                      {project.annee}
+                    </div>
                   </div>
-                </div>
-                <div class="absolute right-3 bottom-3 z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 text-sm lg:text-sm group-hover:bg-black/50 group-hover:px-2 group-hover:py-1 group-hover:rounded-lg">
-                  {project.annee}
                 </div>
               </div>
             </div>
@@ -115,7 +123,7 @@ const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
         if (!grid || !filterContainer) return;
 
         const buttons = Array.from(
-          filterContainer.querySelectorAll(".filter-btn")
+          filterContainer.querySelectorAll(".filter-btn"),
         );
         const cards = Array.from(grid.querySelectorAll(".project-item"));
 
