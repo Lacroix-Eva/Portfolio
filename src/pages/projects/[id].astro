@@ -275,12 +275,14 @@ const safeText = paragraphs.join("");
 
     <ul class="flex flex-wrap gap-3 items-center">
       {collabs.map((c) => {
-        const u = c.expand?.user;
+        const u = Array.isArray(c.expand?.user)
+          ? c.expand.user[0]
+          : c.expand?.user;
 
         if (!u) return null;
 
-        const name = u.nom || "Collaborateur";
-        const url = u.portfolioUrl || "#";
+        const name = "nom" in u ? u.nom : "Collaborateur";
+        const url = "portfolioUrl" in u ? u.portfolioUrl : "#";
 
         return (
           <li>
