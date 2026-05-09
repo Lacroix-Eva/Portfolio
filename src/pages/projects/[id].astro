@@ -4,6 +4,8 @@ import pb from "../../../pocketbase/pb";
 import {
   Collections,
   type ProjetsRecord,
+  type ProjectCollaboratorsResponse,
+  type CollaborateursRecord,
 } from "../../../pocketbase/pocketbase-types";
 
 const id = Astro.params.id;
@@ -13,19 +15,10 @@ const projet: ProjetsRecord = await pb
   .collection(Collections.Projets)
   .getOne(id);
 
-let collabs: any[] = [];
-
-try {
-  collabs = await pb
-    .collection(Collections.ProjectCollaborators)
-    .getFullList({
-      filter: `project = "${id}"`,
-      expand: "user",
-    });
-} catch (err) {
-  console.error("Erreur collaborateurs:", err);
-  collabs = [];
-}
+// Récupérer les collaborateurs liés à ce projet (expand user/Collaborateurs)
+// const collabs: ProjectCollaboratorsResponse[] = await pb
+//   .collection(Collections.ProjectCollaborators)
+//   .getFullList({ filter: `project = "${id}"`, expand: "user" });
 
 // Sécuriser les champs multi-fichiers / multi-valeurs
 const resultatImages: string[] = Array.isArray(projet.resultatImage)
@@ -276,27 +269,20 @@ const safeText = paragraphs.join("");
       </section>
     )}
 
-    {collabs.length > 0 && (
+    <!-- {collabs.length > 0 && (
   <section class="mt-6 lg:mt-10">
     <h2 class="mb-2 lg:mb-4">En collaboration avec</h2>
 
     <ul class="flex flex-wrap gap-3 items-center">
-      {collabs.map((c: any) => {
+      {collabs.map((c) => {
         const u = Array.isArray(c.expand?.user)
           ? c.expand.user[0]
           : c.expand?.user;
 
         if (!u) return null;
 
-        const name =
-          "nom" in u && u.nom
-            ? u.nom
-            : "Collaborateur";
-
-        const url =
-          "portfolioUrl" in u && u.portfolioUrl
-            ? u.portfolioUrl
-            : "#";
+        const name = "nom" in u ? u.nom : "Collaborateur";
+        const url = "portfolioUrl" in u ? u.portfolioUrl : "#";
 
         return (
           <li>
@@ -319,7 +305,7 @@ const safeText = paragraphs.join("");
       })}
     </ul>
   </section>
-)}
+)} -->
 
     <!-- OUTILS -->
     {outils.length > 0 && (
