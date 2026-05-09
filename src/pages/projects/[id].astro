@@ -13,16 +13,19 @@ const projet: ProjetsRecord = await pb
   .collection(Collections.Projets)
   .getOne(id);
 
-const collabs = await pb
-  .collection(Collections.ProjectCollaborators)
-  .getFullList({
-    filter: `project = "${id}"`,
-    expand: "user",
-  })
-  .catch((err) => {
-    console.error("Erreur collaborateurs:", err);
-    return [];
-  });
+let collabs: any[] = [];
+
+try {
+  collabs = await pb
+    .collection(Collections.ProjectCollaborators)
+    .getFullList({
+      filter: `project = "${id}"`,
+      expand: "user",
+    });
+} catch (err) {
+  console.error("Erreur collaborateurs:", err);
+  collabs = [];
+}
 
 // Sécuriser les champs multi-fichiers / multi-valeurs
 const resultatImages: string[] = Array.isArray(projet.resultatImage)
