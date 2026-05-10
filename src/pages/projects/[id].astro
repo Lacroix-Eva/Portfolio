@@ -46,20 +46,22 @@ const resultatGridClass =
       ? "grid grid-cols-1 md:grid-cols-2 gap-4"
       : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4";
 
-import type {
-  CollaborateursResponse,
-  ProjectCollaboratorsResponse,
-} from "../../../pocketbase/pocketbase-types";
+let collaborateurs = [];
 
-// ✅ FIX IMPORTANT : expand forcé + typage sécurisé
-const collaborateurs = await pb
-  .collection(Collections.ProjectCollaborators)
-  .getFullList<ProjectCollaboratorsResponse<{
-    user: CollaborateursResponse;
-  }>>({
-    filter: `project="${projet.id}"`,
-    expand: "user",
-  });
+try {
+  collaborateurs = await pb
+    .collection(Collections.ProjectCollaborators)
+    .getFullList({
+      filter: `project="${projet.id}"`,
+      expand: "user",
+    });
+} catch (e) {
+  console.error("Erreur collaborateurs:", e);
+  collaborateurs = [];
+}
+
+console.log("PROJET OK", projet.id);
+console.log("COLLAB OK", collaborateurs.length);
 
 // URL PocketBase
 const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
@@ -278,43 +280,38 @@ const safeText = paragraphs.join("");
     )}
 
         <!-- COLLABORATEURS (FIX + SAFE RENDER) -->
-    {collaborateurs.length > 0 && (
-      <section class="mt-8 lg:mt-15">
-        <h2 class="mb-2 lg:mb-4">Collaborateurs</h2>
+    {collaborateurs?.length > 0 && (
+  <section class="mt-8 lg:mt-15">
+    <h2 class="mb-2 lg:mb-4">Collaborateurs</h2>
 
-        <div class="flex flex-wrap gap-3">
-          {collaborateurs.map((collab) => {
-            const user = collab.expand?.user ?? null;
+    <div class="flex flex-wrap gap-3">
+      {collaborateurs.map((collab) => {
+        const user = collab.expand?.user;
 
-            const url =
-              user?.portfolioUrl?.startsWith("http")
-                ? user.portfolioUrl
-                : user?.portfolioUrl
-                  ? `https://${user.portfolioUrl}`
-                  : null;
+        if (!user) return null;
 
-            return (
-              <a
-                href={url || "#"}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex flex-col bg-linear-to-b from-secondary to-primary px-4 py-3 rounded-2xl hover:scale-[1.02] transition-transform"
-              >
-                <span class="font-semibold">
-                  {user?.nom || "Collaborateur"}
-                </span>
+        const url =
+          user.portfolioUrl?.startsWith("http")
+            ? user.portfolioUrl
+            : user.portfolioUrl
+              ? `https://${user.portfolioUrl}`
+              : "#";
 
-                {collab.role && (
-                  <span class="text-sm opacity-80">
-                    {collab.role}
-                  </span>
-                )}
-              </a>
-            );
-          })}
-        </div>
-      </section>
-    )}
+        return (
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex flex-col bg-linear-to-b from-secondary to-primary px-4 py-3 rounded-2xl hover:scale-[1.02] transition-transform"
+          >
+            <span class="font-semibold">{user.nom}</span>
+            {collab.role && <span class="text-sm opacity-80">{collab.role}</span>}
+          </a>
+        );
+      })}
+    </div>
+  </section>
+)}
 
     <!-- OUTILS -->
     {outils.length > 0 && (
