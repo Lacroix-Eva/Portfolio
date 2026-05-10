@@ -46,22 +46,41 @@ const resultatGridClass =
       ? "grid grid-cols-1 md:grid-cols-2 gap-4"
       : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4";
 
+import type {
+  CollaborateursResponse,
+  ProjectCollaboratorsResponse,
+} from "../../../pocketbase/pocketbase-types";
+
+// ✅ FIX ROBUSTE : on récupère sans dépendre d’un expand fragile
 let collaborateurs = [];
 
 try {
   collaborateurs = await pb
     .collection(Collections.ProjectCollaborators)
-    .getFullList({
+    .getFullList<ProjectCollaboratorsResponse>({
       filter: `project="${projet.id}"`,
-      expand: "user",
     });
+
+  // enrichissement manuel user (plus fiable que expand en prod)
+  collaborateurs = await Promise.all(
+    collaborateurs.map(async (c) => {
+      try {
+        if (!c.user) return c;
+
+        const user = await pb
+          .collection(Collections.Collaborateurs)
+          .getOne(c.user);
+
+        return { ...c, user };
+      } catch {
+        return c;
+      }
+    })
+  );
 } catch (e) {
-  console.error("Erreur collaborateurs:", e);
+  console.error("Collaborateurs error:", e);
   collaborateurs = [];
 }
-
-console.log("PROJET OK", projet.id);
-console.log("COLLAB OK", collaborateurs.length);
 
 // URL PocketBase
 const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
@@ -279,39 +298,41 @@ const safeText = paragraphs.join("");
       </section>
     )}
 
-        <!-- COLLABORATEURS (FIX + SAFE RENDER) -->
-    {collaborateurs?.length > 0 && (
-  <section class="mt-8 lg:mt-15">
-    <h2 class="mb-2 lg:mb-4">Collaborateurs</h2>
+    <!-- COLLABORATEURS (FIX FINAL) -->
+    {collaborateurs.length > 0 && (
+      <section class="mt-8 lg:mt-15">
+        <h2>Collaborateurs</h2>
 
-    <div class="flex flex-wrap gap-3">
-      {collaborateurs.map((collab) => {
-        const user = collab.expand?.user;
+        <div class="flex flex-wrap gap-3">
+          {collaborateurs.map((collab) => {
+            const user = collab.user; // 👈 plus d'expand fragile
 
-        if (!user) return null;
+            if (!user) return null;
 
-        const url =
-          user.portfolioUrl?.startsWith("http")
-            ? user.portfolioUrl
-            : user.portfolioUrl
-              ? `https://${user.portfolioUrl}`
-              : "#";
+            const url = user.portfolioUrl?.startsWith("http")
+              ? user.portfolioUrl
+              : user.portfolioUrl
+                ? `https://${user.portfolioUrl}`
+                : "#";
 
-        return (
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex flex-col bg-linear-to-b from-secondary to-primary px-4 py-3 rounded-2xl hover:scale-[1.02] transition-transform"
-          >
-            <span class="font-semibold">{user.nom}</span>
-            {collab.role && <span class="text-sm opacity-80">{collab.role}</span>}
-          </a>
-        );
-      })}
-    </div>
-  </section>
-)}
+            return (
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex flex-col bg-linear-to-b from-secondary to-primary px-4 py-3 rounded-2xl"
+              >
+                <span class="font-semibold">{user.nom}</span>
+
+                {collab.role && (
+                  <span class="text-sm opacity-80">{collab.role}</span>
+                )}
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    )}
 
     <!-- OUTILS -->
     {outils.length > 0 && (
