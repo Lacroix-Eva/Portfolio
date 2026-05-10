@@ -301,7 +301,7 @@ const safeText = paragraphs.join("");
     <!-- COLLABORATEURS (FIX FINAL) -->
     {collaborateurs.length > 0 && (
       <section class="mt-8 lg:mt-15">
-        <h2>Collaborateurs</h2>
+        <h2 class="mb-2 lg:mb-4">Collaborateurs</h2>
 
         <div class="flex flex-wrap gap-3">
           {collaborateurs.map((collab) => {
@@ -320,13 +320,23 @@ const safeText = paragraphs.join("");
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex flex-col bg-linear-to-b from-secondary to-primary px-4 py-3 rounded-2xl"
+                class="group inline-flex items-center gap-3 rounded-full border border-white/10 bg-base-100/70 px-4 py-2.5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-base-100 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-accent/60"
               >
-                <span class="font-semibold">{user.nom}</span>
+                <span class="grid h-9 w-9 place-items-center rounded-full bg-linear-to-br from-primary to-accent text-sm font-bold text-white shadow-sm">
+                  {user.nom?.trim()?.slice(0, 1)?.toUpperCase()}
+                </span>
 
-                {collab.role && (
-                  <span class="text-sm opacity-80">{collab.role}</span>
-                )}
+                <span class="flex flex-col leading-tight">
+                  <span class="font-semibold text-base-content group-hover:text-primary transition-colors">
+                    {user.nom}
+                  </span>
+
+                  {collab.role && (
+                    <span class="text-xs uppercase tracking-wide text-base-content/60">
+                      {collab.role}
+                    </span>
+                  )}
+                </span>
               </a>
             );
           })}
