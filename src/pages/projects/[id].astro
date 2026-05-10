@@ -4,8 +4,6 @@ import pb from "../../../pocketbase/pb";
 import {
   Collections,
   type ProjetsRecord,
-  type ProjectCollaboratorsResponse,
-  type CollaborateursRecord,
 } from "../../../pocketbase/pocketbase-types";
 
 const id = Astro.params.id;
@@ -14,11 +12,6 @@ const id = Astro.params.id;
 const projet: ProjetsRecord = await pb
   .collection(Collections.Projets)
   .getOne(id);
-
-// Récupérer les collaborateurs liés à ce projet (expand user/Collaborateurs)
-// const collabs: ProjectCollaboratorsResponse[] = await pb
-//   .collection(Collections.ProjectCollaborators)
-//   .getFullList({ filter: `project = "${id}"`, expand: "user" });
 
 // Sécuriser les champs multi-fichiers / multi-valeurs
 const resultatImages: string[] = Array.isArray(projet.resultatImage)
@@ -52,6 +45,20 @@ const resultatGridClass =
     : resultatImagesCount === 2
       ? "grid grid-cols-1 md:grid-cols-2 gap-4"
       : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4";
+
+  import type {
+  CollaborateursResponse,
+  ProjectCollaboratorsResponse,
+} from "../../../pocketbase/pocketbase-types";
+
+const collaborateurs = await pb
+  .collection(Collections.ProjectCollaborators)
+  .getFullList<ProjectCollaboratorsResponse<{
+    user: CollaborateursResponse;
+  }>>({
+    filter: `project="${projet.id}"`,
+    expand: "user",
+  });
 
 // URL PocketBase
 const PB_BASE_URL = "https://portfolio.eva-lacroix.fr";
@@ -269,43 +276,37 @@ const safeText = paragraphs.join("");
       </section>
     )}
 
-    <!-- {collabs.length > 0 && (
-  <section class="mt-6 lg:mt-10">
-    <h2 class="mb-2 lg:mb-4">En collaboration avec</h2>
+    <!-- COLLABORATEURS -->
+{collaborateurs.length > 0 && (
+  <section class="mt-8 lg:mt-15">
+    <h2 class="mb-2 lg:mb-4">Collaborateurs</h2>
 
-    <ul class="flex flex-wrap gap-3 items-center">
-      {collabs.map((c) => {
-        const u = Array.isArray(c.expand?.user)
-          ? c.expand.user[0]
-          : c.expand?.user;
-
-        if (!u) return null;
-
-        const name = "nom" in u ? u.nom : "Collaborateur";
-        const url = "portfolioUrl" in u ? u.portfolioUrl : "#";
+    <div class="flex flex-wrap gap-3">
+      {collaborateurs.map((collab) => {
+        const user = collab.expand?.user;
 
         return (
-          <li>
-            <a
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 bg-linear-to-br from-primary to-accent text-white font-medium py-1 px-3 rounded-full shadow-sm hover:opacity-90"
-            >
-              <span>{name}</span>
+          <a
+            href={user?.portfolioUrl || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex flex-col bg-linear-to-b from-secondary to-primary px-4 py-3 rounded-2xl hover:scale-[1.02] transition-transform"
+          >
+            <span class="font-semibold">
+              {user?.nom || "Collaborateur"}
+            </span>
 
-              {c.role && (
-                <span class="text-sm text-white/80">
-                  - {c.role}
-                </span>
-              )}
-            </a>
-          </li>
+            {collab.role && (
+              <span class="text-sm opacity-80">
+                {collab.role}
+              </span>
+            )}
+          </a>
         );
       })}
-    </ul>
+    </div>
   </section>
-)} -->
+)}
 
     <!-- OUTILS -->
     {outils.length > 0 && (
