@@ -43,8 +43,8 @@ const resultatGridClass =
   resultatImagesCount === 1
     ? "grid grid-cols-1 gap-4"
     : resultatImagesCount === 2
-      ? "grid grid-cols-1 md:grid-cols-2 gap-4"
-      : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4";
+      ? "grid grid-cols-1 lg:grid-cols-2 gap-4"
+      : "grid grid-cols-1 md:grid-cols-2 gap-4";
 
 import type {
   CollaborateursResponse,
@@ -100,11 +100,12 @@ let linkedText = rawText.replace(
   `<a href="$1" target="_blank" rel="noopener noreferrer" class="text-accent underline hover:opacity-80">$1</a>`
 );
 
-// 3) Remplacer les doubles retours à la ligne par des paragraphes
-const paragraphs = linkedText.split(/\n{2,}/).map(p => {
-  // remplacer les retours simples dans le paragraphe par <br/>
-  return `<p>${p.replace(/\n/g, "<br/>")}</p>`;
-});
+// 3) Remplacer les doubles retours à la ligne par des paragraphes (ignorer vides)
+const paragraphs = linkedText
+  .split(/\n{2,}/)
+  .map((p) => p.replace(/\n/g, "<br/>").trim())
+  .filter((p) => p.length > 0)
+  .map((p) => `<p>${p}</p>`);
 
 // 4) Joindre les paragraphes
 const safeText = paragraphs.join("");
@@ -229,7 +230,7 @@ const safeText = paragraphs.join("");
 
           <!-- Texte -->
           {safeText.trim() && (
-            <div class="prose max-w-none rounded-2xl bg-base-100/70 p-5 lg:p-6 shadow-sm">
+            <div class="prose max-w-none rounded-2xl bg-base-100/70 p-5 lg:p-6 shadow-sm text-base lg:text-xl ml-4 lg:ml-8">
               <div set:html={safeText} />
             </div>
           )}
@@ -242,26 +243,32 @@ const safeText = paragraphs.join("");
                 const isVideo =
                   file.endsWith(".mp4") || file.endsWith(".webm");
 
-                return isVideo ? (
-                  <div class="flex h-72 md:h-80 items-center justify-center overflow-hidden rounded-2xl bg-base-100 shadow-md">
-                    <video
-                      controls
-                      class="h-full w-full object-contain"
-                      style="aspect-ratio:16/9;"
-                    >
-                      <source
-                        src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
-                      />
-                    </video>
-                  </div>
-                ) : (
-                  <div class="flex h-72 md:h-80 items-center justify-center overflow-hidden rounded-2xl bg-base-100 shadow-md p-3">
-                    <img
-                      src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
-                      alt="Résultat"
-                      class="h-full w-full object-contain"
-                      loading="lazy"
-                    />
+                return (
+                  <div class="group relative overflow-hidden flex justify-center items-center">
+                    {isVideo ? (
+                        <video
+                          controls
+                          class=" w-300 object-contain rounded-3xl"
+                        >
+                          <source
+                            src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                          />
+                        </video>
+                    ) : (
+                      <a
+                        href={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="block overflow-hidden"
+                      >
+                        <img
+                          src={`${PB_BASE_URL}/api/files/${projet.collectionId}/${projet.id}/${file}`}
+                          alt="Résultat"
+                          class="w-128 object-contain justify-center items-center"
+                          loading="lazy"
+                        />
+                      </a>
+                    )}
                   </div>
                 );
               })}
