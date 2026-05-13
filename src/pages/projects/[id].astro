@@ -96,12 +96,8 @@ const rawText = Array.isArray(projet.resultatTextes)
 
 // 2) Transformer les URLs en <a> avant tout
 let linkedText = rawText.replace(
-  /(https?:\/\/[^\s<]+)/g,
-  (_, url) => {
-    const label = url.includes("figma.com/proto")
-      ? "Voir le prototype interactif"
-      : url;
-
+  /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+  (_, label, url) => {
     return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-accent underline hover:opacity-80">${label}</a>`;
   }
 );
@@ -236,7 +232,7 @@ const safeText = paragraphs.join("");
 
           <!-- Texte -->
           {safeText.trim() && (
-            <div class="prose max-w-none rounded-2xl bg-base-100/70 p-5 lg:p-6 shadow-sm text-base lg:text-xl ml-4 lg:ml-8">
+            <div class="prose max-w-none rounded-2xl bg-base-100/70 shadow-sm text-base lg:text-xl ml-4 lg:ml-8">
               <div set:html={safeText} />
             </div>
           )}
