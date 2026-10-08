@@ -38,6 +38,8 @@ jobs:
           rm: false
           overwrite: true
           debug: true
+          timeout: 2m
+          command_timeout: 20m
       - name: Install production dependencies on VPS
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -45,6 +47,8 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22039
+          timeout: 2m
+          command_timeout: 20m
           script: |
             cd /var/www/portfolio/server
             npm ci
