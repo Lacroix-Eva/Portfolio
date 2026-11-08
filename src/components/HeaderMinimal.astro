@@ -2,7 +2,9 @@
 const { item } = Astro.props;
 ---
 
-<header class="relative flex items-center justify-between lg:m-0 mb-2 lg:mb-0 mt-2">
+<header
+  class="relative flex items-center justify-between lg:m-0 mb-2 lg:mb-0 mt-2"
+>
   <!-- Logo à gauche -->
   <a href="/" aria-label="Accueil">
     <img
@@ -23,13 +25,7 @@ const { item } = Astro.props;
       <img
         src="/icons/menu.svg"
         alt="Menu"
-        class="cursor-pointer
-        w-16
-        h-16
-        md:w-24
-        md:h-24
-        lg:w-32
-        lg:h-32"
+        class="cursor-pointer w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28"
       />
     </button>
   </div>
@@ -37,9 +33,9 @@ const { item } = Astro.props;
   <!-- Menu latéral -->
   <nav
     id="menu-panel"
-    class="fixed top-0 right-0 h-full w-170 max-w-full bg-base-200 translate-x-full
-         transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)]
-         shadow-2xl z-50 border-l border-base-300"
+    class="fixed top-0 right-0 h-full w-170 lg:w-120 max-w-full bg-base-200 translate-x-full
+     transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)]
+     shadow-2xl z-50 border-l border-base-300"
     aria-hidden="true"
     role="dialog"
     aria-label="Menu de navigation"
@@ -47,16 +43,14 @@ const { item } = Astro.props;
     <!-- Bouton close -->
     <button
       id="close-menu"
-      class="absolute right-3 top-3 lg:right-15 lg:top-10 p-2 rounded-full hover:bg-base-300/40
+      class="absolute right-3 top-3 lg:right-12 lg:top-11.5 p-2 rounded-full hover:bg-base-300/40
            transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
       aria-label="Fermer le menu"
     >
       <img
         src="/icons/croix.svg"
         alt=""
-        width="72"
-        height="72"
-        class="w-11 h-11 lg:w-18 lg:h-18 pointer-events-none"
+        class="w-11 h-11 md:w-12 md:h-12 lg:w-16 lg:h-16 pointer-events-none"
       />
     </button>
 
@@ -66,7 +60,7 @@ const { item } = Astro.props;
         <li>
           <a
             href="/projects"
-            class="neon neon-pulse text-5xl md:text-6xl lg:text-7xl font-semibold
+            class="neon neon-pulse text-5xl lg:text-6xl font-semibold
                  hover:opacity-75 transition-opacity"
           >
             Projets
@@ -76,7 +70,7 @@ const { item } = Astro.props;
         <li>
           <a
             href="/about"
-            class="neon neon-pulse text-5xl md:text-6xl lg:text-7xl font-semibold
+            class="neon neon-pulse text-5xl lg:text-6xl font-semibold
                  hover:opacity-75 transition-opacity"
           >
             À propos
@@ -86,7 +80,7 @@ const { item } = Astro.props;
         <li>
           <a
             href="/contact"
-            class="neon neon-pulse text-5xl md:text-6xl lg:text-7xl font-semibold
+            class="neon neon-pulse text-5xl lg:text-6xl font-semibold
                  hover:opacity-75 transition-opacity"
           >
             Contact
