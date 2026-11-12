@@ -34,9 +34,7 @@ try {
     gap-10 lg:gap-16 items-center mb-10 lg:mb-20"
       >
         <!-- Illustration -->
-        <div
-          class="flex self-start items-start justify-center pt-8 lg:pb-0 pb-8"
-        >
+        <div class="flex self-start items-start justify-center pt-8 lg:pb-0 pb-8">
           <div class="w-72 md:w-100 lg:w-full max-w-md relative group">
             <!-- Contour lumineux bleu -->
             <div
@@ -81,249 +79,249 @@ try {
           </p>
 
           <div>
-            <h1
-              class="text-left tracking-tight leading-tight text-3xl md:text-4xl lg:text-5xl"
-            >
+            <h1 class="text-left tracking-tight leading-tight text-3xl md:text-4xl lg:text-5xl">
               Bonjour, moi c'est
               <span class="block text-primary neon neon-pulse">
-                Eva Lacroix.</span
-              >
+                Eva Lacroix.</span>
+              </span>
             </h1>
+
+            <h2 class="leading-tight mt-4 text-lg md:text-xl lg:text-2xl">
+              Étudiante en BUT MMI, à la recherche d'une alternance ou d'un
+              stage.
+            </h2>
           </div>
 
-          <h2 class="leading-tight mt-4 text-lg md:text-xl lg:text-2xl">
-            Étudiante en BUT MMI, à la recherche d'une alternance ou d'un stage.
-          </h2>
-        </div>
-
-        <!-- Disponibilités -->
-        <div class="flex flex-wrap gap-3 mt-4">
-          <span
-            class="inline-flex items-center text-sm
+          <!-- Disponibilités -->
+          <div class="flex flex-wrap gap-3 mt-4 bg-base-100">
+            <span
+              class="inline-flex items-center text-sm
           bg-primary/10 text-primary border border-primary/40
           px-4 py-2 rounded-full"
-          >
-            Stage : 15 février - 4 juin 2027
-          </span>
+            >
+              Stage : 15 février - 4 juin 2027
+            </span>
 
-          <span
-            class="inline-flex items-center text-sm
+            <span
+              class="inline-flex items-center text-sm
           bg-accent/10 text-accent border border-accent/20
           px-4 py-2 rounded-full font-medium"
-          >
-            Alternance · Webdesign, UX/UI & front-end
-          </span>
-        </div>
+            >
+              Alternance · Webdesign, UX/UI & front-end
+            </span>
+          </div>
 
-        <!-- Description -->
-        <div class="space-y-3 border-l-2 border-primary/40 pl-5">
-          <p class="text-base-content/80 leading-relaxed">
-            Je conçois des interfaces web à la fois esthétiques, fonctionnelles
-            et accessibles.
-          </p>
+          <!-- Description -->
+          <div class="space-y-3 border-l-2 border-primary/40 pl-5">
+            <p class="text-base-content/80 leading-relaxed">
+              Je conçois des interfaces web à la fois esthétiques,
+              fonctionnelles et accessibles.
+            </p>
 
-          <p class="text-base-content/70 leading-relaxed">
-            Mon objectif est de créer des expériences claires et cohérentes, en
-            combinant design, UX/UI et développement front-end.
-          </p>
-        </div>
+            <p class="text-base-content/70 leading-relaxed">
+              Mon objectif est de créer des expériences claires et cohérentes,
+              en combinant design, UX/UI et développement front-end.
+            </p>
+          </div>
 
-        <!-- Boutons -->
-        <div class="flex flex-col sm:flex-row gap-3 pt-2">
-          <a
-            href="/CV/CV_LACROIX_Eva.pdf"
-            class="btn btn-primary btn-neon neon-petit-texte"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Visualiser mon CV"
-          >
-            Visualiser mon CV ↗
-          </a>
+          <!-- Boutons -->
+          <div class="flex flex-row gap-3 pt-2 ">
+            <a
+              href="/CV/CV_LACROIX_Eva.pdf"
+              class="btn btn-primary btn-neon neon-petit-texte"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visualiser mon CV"
+            >
+              Visualiser mon CV ↗
+            </a>
 
-          <a
-            href="/contact"
-            class="btn btn-secondary btn-neon neon-petit-texte"
-            aria-label="Me contacter"
-          >
-            Me contacter ↗
-          </a>
+            <a
+              href="/contact"
+              class="btn btn-secondary btn-neon neon-petit-texte"
+              aria-label="Me contacter"
+            >
+              Me contacter ↗
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
-  <section>
-    <h2 class="mb-3 lg:mb-6">Mes projets favoris</h2>
-    <p class="mb-4">
-      Voici une sélection de projets sur lesquels j'ai travaillé et qui
-      reflètent mes compétences en design, développement et communication
-      digitale.
-    </p>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {
-        featured.length > 0 ? (
-          featured.map((project) => {
-            const img =
-              project.imageCouverture ||
-              (Array.isArray(project.imageContexte)
-                ? project.imageContexte[0]
-                : project.imageContexte) ||
-              "";
-            const imgUrl = img
-              ? `${pb.baseUrl.replace(/\/$/, "")}/api/files/${project.collectionId}/${project.id}/${img}`
-              : "/img/fond_footer.webp";
-            return (
-              <a
-                href={`/projects/${project.id}`}
-                data-categorie-filtre={project.categorie_filtre ?? ""}
-                class="project-item block h-full"
-              >
-                <div class="project-card relative rounded-2xl overflow-hidden group lg:h-75 w-auto">
-                  <img
-                    src={imgUrl}
-                    alt={`visuel principal ${project.titre}`}
-                    class="w-full h-full object-cover"
-                    loading="lazy"
-                  />
+    <section>
+      <h2 class="mb-3 lg:mb-6">Mes projets favoris</h2>
+      <p class="mb-4">
+        Voici une sélection de projets sur lesquels j'ai travaillé et qui
+        reflètent mes compétences en design, développement et communication
+        digitale.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {
+          featured.length > 0 ? (
+            featured.map((project) => {
+              const img =
+                project.imageCouverture ||
+                (Array.isArray(project.imageContexte)
+                  ? project.imageContexte[0]
+                  : project.imageContexte) ||
+                "";
+              const imgUrl = img
+                ? `${pb.baseUrl.replace(/\/$/, "")}/api/files/${project.collectionId}/${project.id}/${img}`
+                : "/img/fond_footer.webp";
+              return (
+                <a
+                  href={`/projects/${project.id}`}
+                  data-categorie-filtre={project.categorie_filtre ?? ""}
+                  class="project-item block h-full"
+                >
+                  <div class="project-card relative rounded-2xl overflow-hidden group lg:h-75 w-auto">
+                    <img
+                      src={imgUrl}
+                      alt={`visuel principal ${project.titre}`}
+                      class="w-full h-full object-cover"
+                      loading="lazy"
+                    />
 
-                  <div
-                    class="absolute inset-0 group-hover:bg-black/60 pointer-events-none"
-                    aria-hidden="true"
-                  />
+                    <div
+                      class="absolute inset-0 group-hover:bg-black/60 pointer-events-none"
+                      aria-hidden="true"
+                    />
 
-                  <div class="absolute top-3 right-3 flex flex-col gap-2 items-end z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                    {project.roleBadge1 ? (
-                      <span class="text-xs lg:text-sm bg-linear-to-br from-primary to-accent px-3 py-1 rounded-full">
-                        {project.roleBadge1}
-                      </span>
-                    ) : null}
-                    {project.roleBadge2 ? (
-                      <span class="text-xs lg:text-sm bg-linear-to-br from-primary to-accent px-3 py-1 rounded-full">
-                        {project.roleBadge2}
-                      </span>
-                    ) : null}
-                  </div>
-
-                  <div class="grid grid-cols-2">
-                    <div class="absolute left-3 right-3 bottom-3 z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                      {project.categorie ? (
-                        <span class="inline-block text-xs lg:text-sm bg-linear-to-br from-primary to-accent px-3 py-1 rounded-full">
-                          {project.categorie}
+                    <div class="absolute top-3 right-3 flex flex-col gap-2 items-end z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                      {project.roleBadge1 ? (
+                        <span class="text-xs lg:text-sm bg-linear-to-br from-primary to-accent px-3 py-1 rounded-full">
+                          {project.roleBadge1}
                         </span>
                       ) : null}
-                      <div class="mt-2 flex items-center justify-between gap-4">
-                        <div class="text-sm lg:text-base font-medium bg-black/50 px-2 py-1 rounded-lg">
-                          {project.titre}
-                        </div>
-                        <div class="text-sm lg:text-sm bg-black/50 px-2 py-1 rounded-lg">
-                          {project.annee}
+                      {project.roleBadge2 ? (
+                        <span class="text-xs lg:text-sm bg-linear-to-br from-primary to-accent px-3 py-1 rounded-full">
+                          {project.roleBadge2}
+                        </span>
+                      ) : null}
+                    </div>
+
+                    <div class="grid grid-cols-2">
+                      <div class="absolute left-3 right-3 bottom-3 z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                        {project.categorie ? (
+                          <span class="inline-block text-xs lg:text-sm bg-linear-to-br from-primary to-accent px-3 py-1 rounded-full">
+                            {project.categorie}
+                          </span>
+                        ) : null}
+                        <div class="mt-2 flex items-center justify-between gap-4">
+                          <div class="text-sm lg:text-base font-medium bg-black/50 px-2 py-1 rounded-lg">
+                            {project.titre}
+                          </div>
+                          <div class="text-sm lg:text-sm bg-black/50 px-2 py-1 rounded-lg">
+                            {project.annee}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                </a>
+              );
+            })
+          ) : (
+            <>
+              <a
+                href="/projects"
+                class="card card-compact bg-base-100 hover:shadow-2xl transition-shadow"
+              >
+                <figure class="h-44 bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden rounded-t-2xl">
+                  <img
+                    src="/img/fond_footer.webp"
+                    alt="Projet exemple"
+                    class="object-cover w-full h-full"
+                  />
+                </figure>
+                <div class="card-body">
+                  <h3 class="card-title">Projet exemple</h3>
+                  <p class="text-sm text-muted">
+                    Aucun projet dynamique disponible pour l'instant. Retrouvez
+                    mes travaux et études de cas sur la page Projets.
+                  </p>
+                  <div class="card-actions justify-end">
+                    <span class="badge badge-outline">Demo</span>
+                  </div>
                 </div>
               </a>
-            );
-          })
-        ) : (
-          <>
-            <a
-              href="/projects"
-              class="card card-compact bg-base-100 hover:shadow-2xl transition-shadow"
-            >
-              <figure class="h-44 bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden rounded-t-2xl">
-                <img
-                  src="/img/fond_footer.webp"
-                  alt="Projet exemple"
-                  class="object-cover w-full h-full"
-                />
-              </figure>
-              <div class="card-body">
-                <h3 class="card-title">Projet exemple</h3>
-                <p class="text-sm text-muted">
-                  Aucun projet dynamique disponible pour l'instant. Retrouvez
-                  mes travaux et études de cas sur la page Projets.
-                </p>
-                <div class="card-actions justify-end">
-                  <span class="badge badge-outline">Demo</span>
+              <a
+                href="/projects"
+                class="card card-compact bg-base-100 hover:shadow-2xl transition-shadow"
+              >
+                <figure class="h-44 bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden rounded-t-2xl">
+                  <img
+                    src="/img/fond_footer.webp"
+                    alt="Projet exemple"
+                    class="object-cover w-full h-full"
+                  />
+                </figure>
+                <div class="card-body">
+                  <h3 class="card-title">Projet exemple</h3>
+                  <p class="text-sm text-muted">
+                    Exemple de projet — aucun projet dynamique trouvé.
+                  </p>
+                  <div class="card-actions justify-end">
+                    <span class="badge badge-outline">Demo</span>
+                  </div>
                 </div>
-              </div>
-            </a>
-            <a
-              href="/projects"
-              class="card card-compact bg-base-100 hover:shadow-2xl transition-shadow"
-            >
-              <figure class="h-44 bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden rounded-t-2xl">
-                <img
-                  src="/img/fond_footer.webp"
-                  alt="Projet exemple"
-                  class="object-cover w-full h-full"
-                />
-              </figure>
-              <div class="card-body">
-                <h3 class="card-title">Projet exemple</h3>
-                <p class="text-sm text-muted">
-                  Exemple de projet — aucun projet dynamique trouvé.
-                </p>
-                <div class="card-actions justify-end">
-                  <span class="badge badge-outline">Demo</span>
+              </a>
+              <a
+                href="/projects"
+                class="card card-compact bg-base-100 hover:shadow-2xl transition-shadow"
+              >
+                <figure class="h-44 bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden rounded-t-2xl">
+                  <img
+                    src="/img/fond_footer.webp"
+                    alt="Projet exemple"
+                    class="object-cover w-full h-full"
+                  />
+                </figure>
+                <div class="card-body">
+                  <h3 class="card-title">Projet exemple</h3>
+                  <p class="text-sm text-muted">
+                    Exemple de projet - aucun projet dynamique trouvé.
+                  </p>
+                  <div class="card-actions justify-end">
+                    <span class="badge badge-outline">Demo</span>
+                  </div>
                 </div>
-              </div>
-            </a>
-            <a
-              href="/projects"
-              class="card card-compact bg-base-100 hover:shadow-2xl transition-shadow"
-            >
-              <figure class="h-44 bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden rounded-t-2xl">
-                <img
-                  src="/img/fond_footer.webp"
-                  alt="Projet exemple"
-                  class="object-cover w-full h-full"
-                />
-              </figure>
-              <div class="card-body">
-                <h3 class="card-title">Projet exemple</h3>
-                <p class="text-sm text-muted">
-                  Exemple de projet - aucun projet dynamique trouvé.
-                </p>
-                <div class="card-actions justify-end">
-                  <span class="badge badge-outline">Demo</span>
-                </div>
-              </div>
-            </a>
-          </>
-        )
-      }
-    </div>
+              </a>
+            </>
+          )
+        }
+      </div>
 
-    <div class="mt-6 text-center">
-      <a href="/projects" class="btn btn-base btn-accent btn-neon"
-        >Voir tous mes projets</a
-      >
-    </div>
-  </section>
-
-  <section class="pt-10 lg:pt-20">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-20">
-      <div>
-        <h2 class="mb-4">Travaillons ensemble</h2>
-        <p class="text-muted mb-4">
-          Je suis à la recherche d’une alternance dès que possible ou d’un stage
-          à partir de février 2027. Échangeons sur vos projets et découvrons
-          comment je pourrais y contribuer !
-        </p>
-        <a href="/contact" class="btn btn-base btn-primary btn-neon"
-          >Contactez-moi</a
+      <div class="mt-6 text-center">
+        <a href="/projects" class="btn btn-base btn-accent btn-neon"
+          >Voir tous mes projets</a
         >
       </div>
-      <div>
-        <h2 class="mb-4">Compétences techniques</h2>
-        <ul class="list-disc list-inside text-lg lg:text-xl space-y-1">
-          <li>UX/UI design · prototypage</li>
-          <li>Accessibilité web · performance</li>
-          <li>Html · CSS · Astro · Tailwind CSS · JavaScript · WordPress</li>
-          <li>PocketBase</li>
-        </ul>
+    </section>
+
+    <section class="pt-10 lg:pt-20">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-20">
+        <div>
+          <h2 class="mb-4">Travaillons ensemble</h2>
+          <p class="text-muted mb-4">
+            Je suis à la recherche d’une alternance dès que possible ou d’un
+            stage à partir de février 2027. Échangeons sur vos projets et
+            découvrons comment je pourrais y contribuer !
+          </p>
+          <a href="/contact" class="btn btn-base btn-primary btn-neon"
+            >Contactez-moi</a
+          >
+        </div>
+        <div>
+          <h2 class="mb-4">Compétences techniques</h2>
+          <ul class="list-disc list-inside text-lg lg:text-xl space-y-1">
+            <li>UX/UI design · prototypage</li>
+            <li>Accessibilité web · performance</li>
+            <li>Astro · Tailwind CSS · JavaScript · WordPress</li>
+            <li>PocketBase</li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 </LayoutMinimal>
