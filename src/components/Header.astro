@@ -3,8 +3,8 @@ const { item } = Astro.props;
 ---
 
 <header class="relative flex items-center justify-between lg:m-0 mb-14 mt-2">
-  <!-- Logo à gauche -->
-  <a href="/" aria-label="Accueil">
+  <!-- Logo cliquable -->
+  <a href="/" aria-label="Retour à l'accueil" class="relative z-10 block">
     <img
       src="/icons/logoBlanc.png"
       alt="Logo"
@@ -14,7 +14,8 @@ const { item } = Astro.props;
 
   <!-- Nom au centre -->
   <h1
-    class="absolute inset-x-0 inset-y-0 flex items-center justify-center neon neon-pulse"
+    class="absolute inset-x-0 inset-y-0 flex items-center justify-center
+    neon neon-pulse pointer-events-none"
   >
     {item.nomPage}
   </h1>
